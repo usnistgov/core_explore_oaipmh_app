@@ -1,0 +1,24 @@
+<table cellpadding="10">
+    {% for instance in instances %}
+        <tr>
+            <td>
+                <input  class="checkbox checkbox-oaipmh"
+                        type="checkbox"
+                        value="{{ instance.instance_id }}"
+                        {% if instance.is_checked %}
+                            checked
+                        {% endif %}
+                />
+            </td>
+            <td>
+                {{ instance.instance_name }}
+            </td>
+        </tr>
+    {% empty %}
+        <tr>
+            <td class="empty">
+                No OAI-PMH Registries available.
+            </td>
+        </tr>
+    {% endfor %}
+</table>

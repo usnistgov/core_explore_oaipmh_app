@@ -1,0 +1,30 @@
+{% extends "core_explore_common_app/user/selector/list_selector_base.html" %}
+{% load staticfiles %}
+
+{% block title%}OAI-PMH{% endblock %}
+
+{% block data_sources_list %}
+<div>
+    <div id="list-data-sources-oaipmh-content">
+    </div>
+    <div id="error-div-oaipmh" style="display: none;">
+        <br/>
+        <div class="alert alert-danger alert-dismissable">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong><span id="error-message"></span></strong>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block raw_js %}
+<script type="application/javascript">
+    // can't be in raw file, initialisation here to be used in list.js
+    var getDataSourceOaiPmhUrl = "{% url 'core_explore_oaipmh_app_get_data_sources' %}";
+    var updateQueryDataSourcesOaiPmhUrl = "{% url 'core_explore_oaipmh_app_update_data_sources' %}";
+</script>
+{% endblock %}
+
+{% block app_js %}
+<script src="{% static 'core_explore_oaipmh_app/user/js/data_sources/list.js' %}"></script>
+{% endblock %}
