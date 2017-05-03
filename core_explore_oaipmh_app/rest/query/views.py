@@ -9,8 +9,8 @@ from core_oaipmh_harvester_app.components.oai_harvester_metadata_format import a
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from core_main_app.components.version_manager import api as version_manager_api
 from core_main_app.utils.xml import unparse
+from core_explore_common_app.utils.result import result as result_utils
 import core_oaipmh_harvester_app.components.oai_record.api as oai_record_api
 import json
 
@@ -67,17 +67,13 @@ def execute_query(request):
         for data in data_list:
             # get data's template
             template = data.harvester_metadata_format.template
-            # get and store data's template information (title, version)
+            # get and store data's template information
             if template not in template_info:
-                version_manager = version_manager_api.get_from_version(data.harvester_metadata_format.template)
-                version_number = version_manager_api.get_version_number(version_manager,
-                                                                        data.harvester_metadata_format.template.id)
-                template_info[template] = {'title': version_manager.title, 'version': version_number}
+                template_info[template] = result_utils.get_template_info(template)
 
             results.append(Result(title=data.identifier,
                                   xml_content=unparse(data.metadata),
-                                  origin="{0} (version {1})".format(template_info[template].get('title'),
-                                                                    template_info[template].get('version')),
+                                  template_info=template_info[template],
                                   detail_url="{0}?id={1}".format(url, data.id)))
 
         return_value = ResultSerializer(results, many=True)
