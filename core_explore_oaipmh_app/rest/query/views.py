@@ -62,6 +62,7 @@ def execute_query(request):
         # Serialize object
         results = []
         url = reverse("core_explore_oaipmh_app_data_detail")
+        url_access_data = reverse("core_explore_oaipmh_app_rest_get_result_from_data_id")
         # Template info
         template_info = dict()
         for data in data_list:
@@ -74,7 +75,8 @@ def execute_query(request):
             results.append(Result(title=data.identifier,
                                   xml_content=unparse(data.metadata),
                                   template_info=template_info[template],
-                                  detail_url="{0}?id={1}".format(url, data.id)))
+                                  detail_url="{0}?id={1}".format(url, data.id),
+                                  access_data_url="{0}?id={1}".format(url_access_data, str(data.id))))
 
         return_value = ResultSerializer(results, many=True)
 
