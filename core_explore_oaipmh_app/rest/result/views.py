@@ -1,13 +1,13 @@
 """ REST views for the data API
 """
+from core_main_app.commons.exceptions import DoesNotExist
+from core_oaipmh_harvester_app.components.oai_record import api as oai_record_api
+from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+
 from core_explore_common_app.components.result.models import Result
 from core_explore_common_app.rest.result.serializers import ResultSerializer
-from rest_framework import status
-from core_oaipmh_harvester_app.components.oai_record import api as oai_record_api
-from core_main_app.commons.exceptions import DoesNotExist
-from core_main_app.utils.xml import unparse
 
 
 @api_view(['GET'])
@@ -32,7 +32,7 @@ def get_result_from_data_id(request):
         record = oai_record_api.get_by_id(data_id)
         # No title for OaiRecord. Use of the id.
         result = Result(title=str(data_id),
-                        xml_content= unparse(record.metadata))
+                        xml_content=record.xml_content)
         # Serialize results
         return_value = ResultSerializer(result)
         # Returns the response

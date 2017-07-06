@@ -2,7 +2,6 @@
 """
 from core_main_app.utils.rendering import render
 from core_oaipmh_harvester_app.components.oai_record import api as oai_record_api
-from core_main_app.utils.xml import unparse
 
 
 def data_detail(request):
@@ -20,7 +19,7 @@ def data_detail(request):
     try:
         record = oai_record_api.get_by_id(record_id)
         template = record.harvester_metadata_format.template
-        data = {'title': record.identifier, 'xml_content': unparse(record.metadata),
+        data = {'title': record.identifier, 'xml_content': record.xml_content,
                 'template': {'id': template.id}}
     except:
         # TODO: catch good exception, redirect to error page
