@@ -20,7 +20,7 @@ def data_detail(request):
         record = oai_record_api.get_by_id(record_id)
         template = record.harvester_metadata_format.template
         data = {'title': record.identifier, 'xml_content': record.xml_content,
-                'template': {'id': template.id}}
+                'template': {'id': template.id, 'display_name': template.display_name}}
     except:
         # TODO: catch good exception, redirect to error page
         pass
