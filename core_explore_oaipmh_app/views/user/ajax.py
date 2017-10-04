@@ -3,7 +3,6 @@
 from django.core.urlresolvers import reverse
 from django.http.response import HttpResponseBadRequest, HttpResponse
 from django.shortcuts import render
-from django.template import RequestContext
 from core_explore_common_app.components.query.models import DataSource, Authentication
 from core_oaipmh_harvester_app.components.oai_registry import api as oai_registry_api
 import core_explore_common_app.components.query.api as api_query
@@ -46,8 +45,11 @@ def get_data_source_list_oaipmh(request):
             # Here, data sources are instances
             context_params = dict()
             context_params['instances'] = item_list
-            context = RequestContext(request, context_params)
 
+            # return context
+            context = {}
+            context.update(request)
+            context.update(context_params)
             return render(request, 'core_explore_oaipmh_app/user/data_sources/list-content.html', context)
         else:
             return HttpResponseBadRequest("Error during loading data sources from oaipmh search.")
