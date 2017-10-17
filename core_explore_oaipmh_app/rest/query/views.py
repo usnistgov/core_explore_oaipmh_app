@@ -18,7 +18,7 @@ from core_explore_common_app.utils.result import result as result_utils
 from core_explore_oaipmh_app.utils.query.mongo.query_builder import OaiPmhQueryBuilder
 
 
-@api_view(['POST'])
+@api_view(['GET'])
 def execute_query(request):
     """ Executes query and returns results.
 
@@ -31,8 +31,8 @@ def execute_query(request):
     """
     try:
         # get query
-        query = request.POST.get('query', None)
-        options = request.POST.get('options', None)
+        query = request.data.get('query', None)
+        options = request.data.get('options', None)
 
         if query is not None:
             query_builder = OaiPmhQueryBuilder(query, 'metadata')
@@ -47,8 +47,8 @@ def execute_query(request):
             return Response('Missing instance information.', status=status.HTTP_400_BAD_REQUEST)
 
         # update the content query with given templates
-        if 'templates' in request.POST:
-            templates = json.loads(request.POST['templates'])
+        if 'templates' in request.data:
+            templates = json.loads(request.data['templates'])
             if len(templates) > 0:
                 # get list of template ids
                 list_template_ids = [template['id'] for template in templates]
