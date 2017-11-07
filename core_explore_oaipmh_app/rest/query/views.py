@@ -4,7 +4,8 @@ import json
 
 import core_oaipmh_harvester_app.components.oai_record.api as oai_record_api
 from core_oaipmh_common_app.commons.messages import OaiPmhMessage
-from core_oaipmh_harvester_app.components.oai_harvester_metadata_format import api as oai_harvester_metadata_format_api
+from core_oaipmh_harvester_app.components.oai_harvester_metadata_format import api as \
+    oai_harvester_metadata_format_api
 from django.core.urlresolvers import reverse
 from rest_framework import status
 from rest_framework.decorators import api_view
@@ -14,7 +15,6 @@ from core_explore_common_app.components.result.models import Result
 from core_explore_common_app.rest.result.serializers import ResultSerializer
 from core_explore_common_app.utils.pagination.rest_framework_paginator.pagination \
     import StandardResultsSetPagination
-from core_explore_common_app.utils.result import result as result_utils
 from core_explore_oaipmh_app.utils.query.mongo.query_builder import OaiPmhQueryBuilder
 
 
@@ -77,15 +77,17 @@ def execute_query(request):
         # Template info
         template_info = dict()
         for data in page:
-            # get data's template
-            template = data.harvester_metadata_format.template
-            # get and store data's template information
-            if template not in template_info:
-                template_info[template] = result_utils.get_template_info(template)
+            # get data's metadata format
+            metadata_format = data.harvester_metadata_format
+            # get and store data's template information from metadata format
+            if metadata_format not in template_info:
+                template = data.harvester_metadata_format.template
+                template_info[metadata_format] =\
+                    get_template_info_from_metadata_format_and_template(metadata_format, template)
 
             results.append(Result(title=data.identifier,
                                   xml_content=data.xml_content,
-                                  template_info=template_info[template],
+                                  template_info=template_info[metadata_format],
                                   detail_url="{0}?id={1}".format(url, data.id),
                                   access_data_url="{0}?id={1}".format(url_access_data,
                                                                       str(data.id))))
@@ -98,3 +100,27 @@ def execute_query(request):
         content = OaiPmhMessage.get_message_labelled('An error occurred when attempting to execute'
                                                      ' the query: %s' % e.message)
         return Response(content, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+def get_template_info_from_metadata_format_and_template(harvester_metadata_format, template):
+    """Get template information from metadata format and template
+    Args:
+        harvester_metadata_format: Metadata format
+        template: Related template
+
+    Returns:
+        Template information.
+
+    """
+    # Use the metadata prefix name
+    name = harvester_metadata_format.metadata_prefix
+    # If a template corresponds to this metadata prefix, we add the template name
+    if template is not None:
+        name += " - {0}".format(template.display_name)
+
+    # Here the id need to be set anyway because is expected by the serializer
+    return_value = {'id': template.id if template is not None else '',
+                    'name': name,
+                    'hash': harvester_metadata_format.hash}
+
+    return return_value
