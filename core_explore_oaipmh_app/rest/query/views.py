@@ -35,7 +35,7 @@ def execute_query(request):
         options = request.data.get('options', None)
 
         if query is not None:
-            query_builder = OaiPmhQueryBuilder(query, 'metadata')
+            query_builder = OaiPmhQueryBuilder(query, 'dict_content')
         else:
             return Response('Query should be passed in parameter',
                             status=status.HTTP_400_BAD_REQUEST)
