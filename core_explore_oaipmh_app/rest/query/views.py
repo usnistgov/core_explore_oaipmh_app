@@ -4,8 +4,7 @@ import json
 
 import core_oaipmh_harvester_app.components.oai_record.api as oai_record_api
 from core_oaipmh_common_app.commons.messages import OaiPmhMessage
-from core_oaipmh_harvester_app.components.oai_harvester_metadata_format import api as \
-    oai_harvester_metadata_format_api
+from core_oaipmh_harvester_app.components.oai_harvester_metadata_format import api as oai_harvester_metadata_format_api
 from django.core.urlresolvers import reverse
 from rest_framework import status
 from rest_framework.decorators import api_view
@@ -13,8 +12,7 @@ from rest_framework.response import Response
 
 from core_explore_common_app.components.result.models import Result
 from core_explore_common_app.rest.result.serializers import ResultSerializer
-from core_explore_common_app.utils.pagination.rest_framework_paginator.pagination \
-    import StandardResultsSetPagination
+from core_explore_common_app.utils.pagination.rest_framework_paginator.pagination import StandardResultsSetPagination
 from core_explore_oaipmh_app.utils.query.mongo.query_builder import OaiPmhQueryBuilder
 
 

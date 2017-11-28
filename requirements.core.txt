@@ -1,2 +1,4 @@
-core_explore_common_app==1.0.0-alpha5
-core_oaipmh_harvester_app==1.0.0-alpha5
+core-explore-common-app==1.0.0-alpha5
+core-main-app==1.0.0-alpha5
+core-oaipmh-common-app==1.0.0-alpha5
+core-oaipmh-harvester-app==1.0.0-alpha5
