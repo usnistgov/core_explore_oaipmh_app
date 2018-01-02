@@ -111,10 +111,7 @@ def get_template_info_from_metadata_format_and_template(harvester_metadata_forma
 
     """
     # Use the metadata prefix name
-    name = harvester_metadata_format.metadata_prefix
-    # If a template corresponds to this metadata prefix, we add the template name
-    if template is not None:
-        name += " - {0}".format(template.display_name)
+    name = harvester_metadata_format.get_display_name()
 
     # Here the id need to be set anyway because is expected by the serializer
     return_value = {'id': template.id if template is not None else '',

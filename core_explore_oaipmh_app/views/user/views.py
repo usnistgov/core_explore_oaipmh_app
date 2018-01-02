@@ -19,8 +19,11 @@ def data_detail(request):
     try:
         record = oai_record_api.get_by_id(record_id)
         template = record.harvester_metadata_format.template
+
         data = {'title': record.identifier, 'xml_content': record.xml_content,
-                'template': {'id': template.id, 'display_name': template.display_name}}
+                'template': {'id': template.id if template is not None else '',
+                             'display_name': record.harvester_metadata_format.get_display_name(),
+                             'hash': record.harvester_metadata_format.hash}}
     except:
         # TODO: catch good exception, redirect to error page
         pass
