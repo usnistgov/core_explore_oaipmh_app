@@ -83,7 +83,7 @@ def execute_query(request):
                 template_info[metadata_format] =\
                     get_template_info_from_metadata_format_and_template(metadata_format, template)
 
-            results.append(Result(title=data.identifier,
+            results.append(Result(title=data.title,
                                   xml_content=data.xml_content,
                                   template_info=template_info[metadata_format],
                                   detail_url="{0}?id={1}".format(url, data.id),
