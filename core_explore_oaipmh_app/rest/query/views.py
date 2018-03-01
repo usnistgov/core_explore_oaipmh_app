@@ -7,7 +7,7 @@ from core_oaipmh_common_app.commons.messages import OaiPmhMessage
 from core_oaipmh_harvester_app.components.oai_harvester_metadata_format import api as oai_harvester_metadata_format_api
 from django.core.urlresolvers import reverse
 from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, schema
 from rest_framework.response import Response
 
 from core_explore_common_app.components.result.models import Result
@@ -17,6 +17,7 @@ from core_explore_oaipmh_app.utils.query.mongo.query_builder import OaiPmhQueryB
 
 
 @api_view(['GET'])
+@schema(None)
 def execute_query(request):
     """ Executes query and returns results.
 

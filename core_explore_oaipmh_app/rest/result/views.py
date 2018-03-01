@@ -3,7 +3,7 @@
 from core_main_app.commons.exceptions import DoesNotExist
 from core_oaipmh_harvester_app.components.oai_record import api as oai_record_api
 from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, schema
 from rest_framework.response import Response
 
 from core_explore_common_app.components.result.models import Result
@@ -11,6 +11,7 @@ from core_explore_common_app.rest.result.serializers import ResultSerializer
 
 
 @api_view(['GET'])
+@schema(None)
 def get_result_from_data_id(request):
     """ Access data, Returns Result, Expects a data ID
 
