@@ -60,6 +60,8 @@ def execute_query(request):
                                             and str(x.template.id) in list_template_ids]
                 query_builder.add_list_metadata_formats_criteria(list_metadata_formats_id)
 
+        # do not include deleted records
+        query_builder.add_not_deleted_criteria()
         # create a raw query
         raw_query = query_builder.get_raw_query()
         # execute query
