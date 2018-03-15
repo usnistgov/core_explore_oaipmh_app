@@ -1,4 +1,5 @@
-core_explore_oaipmh_app
+=======================
+Core Explore Oaipmh App
 =======================
 
 OAI-PMH exploration functions for curator core project.
