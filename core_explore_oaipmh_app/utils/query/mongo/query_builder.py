@@ -1,7 +1,7 @@
 """OAI-PMH Query builder class
 """
 from bson.objectid import ObjectId
-from core_explore_common_app.utils.query.mongo.query_builder import QueryBuilder
+from core_main_app.utils.query.mongo.query_builder import QueryBuilder
 
 
 class OaiPmhQueryBuilder(QueryBuilder):
