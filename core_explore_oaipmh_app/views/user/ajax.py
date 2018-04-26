@@ -1,12 +1,14 @@
 """ Ajax User core explore OAI-PMH
 """
+import json
+
 from django.core.urlresolvers import reverse
 from django.http.response import HttpResponseBadRequest, HttpResponse
 from django.shortcuts import render
-from core_explore_common_app.components.query.models import DataSource, Authentication
-from core_oaipmh_harvester_app.components.oai_registry import api as oai_registry_api
+
 import core_explore_common_app.components.query.api as api_query
-import json
+from core_explore_common_app.components.abstract_query.models import Authentication, DataSource
+from core_oaipmh_harvester_app.components.oai_registry import api as oai_registry_api
 
 
 def get_data_source_list_oaipmh(request):
