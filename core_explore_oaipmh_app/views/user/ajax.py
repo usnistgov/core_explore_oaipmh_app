@@ -8,6 +8,7 @@ from django.shortcuts import render
 
 import core_explore_common_app.components.query.api as api_query
 from core_explore_common_app.components.abstract_query.models import Authentication, DataSource
+from core_explore_oaipmh_app.components.query import api as api_oaipmh_query
 from core_oaipmh_harvester_app.components.oai_registry import api as oai_registry_api
 
 
@@ -84,7 +85,7 @@ def update_data_source_list_oaipmh(request):
                 authentication = Authentication(type='session')
                 data_source = DataSource(name=instance.name, url_query=url_instance, authentication=authentication)
                 data_source.query_options = {'instance_id': str(instance.id)}
-                api_query.add_data_source(query, data_source)
+                api_oaipmh_query.add_oaipmh_data_source(query, data_source)
             else:
                 # Data source have to be remove from the query
                 data_source = api_query.get_data_source_by_name_and_url_query(query, instance.name, url_instance)
