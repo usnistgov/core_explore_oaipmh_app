@@ -29,16 +29,14 @@ def get_data_source_list_oaipmh(request):
             query = api_query.get_by_id(id_query)
             instance_list = oai_registry_api.get_all_activated_registry(order_by_field='name')
             item_list = []
-            url_instance = request.build_absolute_uri(reverse("core_explore_oaipmh_rest_execute_query"))
             for instance_item in instance_list:
                 checked = False
                 # compare instance with existing data source in query
                 # in order to know if they have to be checked
                 for data_source_item in query.data_sources:
-                    if data_source_item.name == instance_item.name\
-                       and data_source_item.url_query == url_instance:
+                    if 'instance_id' in data_source_item.query_options \
+                            and data_source_item.query_options['instance_id'] == str(instance_item.id):
                         checked = True
-                        break
 
                 # update the result item list for the context
                 item_list.extend([{'instance_id': instance_item.id,
@@ -87,9 +85,7 @@ def update_data_source_list_oaipmh(request):
                 data_source.query_options = {'instance_id': str(instance.id)}
                 api_oaipmh_query.add_oaipmh_data_source(query, data_source)
             else:
-                # Data source have to be remove from the query
-                data_source = api_query.get_data_source_by_name_and_url_query(query, instance.name, url_instance)
-                api_query.remove_data_source(query, data_source)
+                api_oaipmh_query.remove_oaipmh_data_source(query, id_instance)
 
             return HttpResponse()
         else:
