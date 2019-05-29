@@ -1,5 +1,6 @@
 """ REST views for the explore OAI-PMH API
 """
+from builtins import str
 import json
 
 from django.core.urlresolvers import reverse
