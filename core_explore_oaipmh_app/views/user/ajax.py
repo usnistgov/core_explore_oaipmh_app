@@ -56,7 +56,7 @@ def get_data_source_list_oaipmh(request):
         else:
             return HttpResponseBadRequest("Error during loading data sources from oaipmh search.")
     except Exception as e:
-        return HttpResponseBadRequest("Error during loading data sources from oaipmh search: %s" % e.message)
+        return HttpResponseBadRequest("Error during loading data sources from oaipmh search: %s" % str(e))
 
 
 def update_data_source_list_oaipmh(request):
@@ -92,4 +92,4 @@ def update_data_source_list_oaipmh(request):
         else:
             return HttpResponseBadRequest("Error during data source selection.")
     except Exception as e:
-        return HttpResponseBadRequest("Error during data source selection: %s" % e.message)
+        return HttpResponseBadRequest("Error during data source selection: %s" % str(e))
