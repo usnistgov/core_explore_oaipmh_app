@@ -1,6 +1,5 @@
 """ REST views for the data API
 """
-from builtins import str
 
 from rest_framework import status
 from rest_framework.decorators import api_view, schema

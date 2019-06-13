@@ -1,7 +1,6 @@
 """ Ajax User core explore OAI-PMH
 """
 import json
-from builtins import str
 
 from django.core.urlresolvers import reverse
 from django.http.response import HttpResponseBadRequest, HttpResponse
