@@ -1,14 +1,14 @@
 """ Permissions Test for OAI Explore Query Rest API
 """
-from core_main_app.utils.tests_tools.MockUser import create_mock_user
-from core_main_app.utils.tests_tools.RequestMock import RequestMock
-from core_oaipmh_harvester_app.rest.oai_record.abstract_views import AbstractExecuteQueryView
 from django.test import SimpleTestCase
 from mock.mock import patch
 from rest_framework import status
 from rest_framework.response import Response
 
 from core_explore_oaipmh_app.rest.query import views as query_views
+from core_main_app.utils.tests_tools.MockUser import create_mock_user
+from core_main_app.utils.tests_tools.RequestMock import RequestMock
+from core_oaipmh_harvester_app.rest.oai_record.abstract_views import AbstractExecuteQueryView
 
 
 class TestGetExecuteQueryRegistry(SimpleTestCase):
