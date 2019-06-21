@@ -24,9 +24,11 @@ def data_detail(request):
                 'template': {'id': template.id if template is not None else '',
                              'display_name': record.harvester_metadata_format.get_display_name(),
                              'hash': record.harvester_metadata_format.hash}}
-    except:
-        # TODO: catch good exception, redirect to error page
-        pass
+    except Exception as e:
+        error_message = "An error occured: {0}".format(str(e))
+        return render(request,
+                      'core_main_app/common/commons/error.html',
+                      context={"error": error_message})
 
     context = {
         'data': data
