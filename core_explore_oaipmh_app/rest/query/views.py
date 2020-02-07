@@ -60,6 +60,7 @@ class ExecuteQueryView(AbstractExecuteQueryView):
                                   xml_content=data.xml_content,
                                   template_info=template_info[metadata_format],
                                   detail_url="{0}?id={1}".format(url, data.id),
+                                  last_modification_date=data.last_modification_date,
                                   access_data_url="{0}?id={1}".format(url_access_data,
                                                                       str(data.id))))
 
