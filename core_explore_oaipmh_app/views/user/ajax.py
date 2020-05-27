@@ -7,7 +7,10 @@ from django.http.response import HttpResponseBadRequest, HttpResponse
 from django.shortcuts import render
 
 import core_explore_common_app.components.query.api as api_query
-from core_explore_common_app.components.abstract_query.models import Authentication, DataSource
+from core_explore_common_app.components.abstract_query.models import (
+    Authentication,
+    DataSource,
+)
 from core_explore_oaipmh_app.components.query import api as api_oaipmh_query
 from core_main_app.settings import DATA_SORTING_FIELDS
 from core_oaipmh_harvester_app.components.oai_registry import api as oai_registry_api
@@ -23,40 +26,59 @@ def get_data_source_list_oaipmh(request):
 
     """
     try:
-        id_query = request.GET.get('id_query', None)
+        id_query = request.GET.get("id_query", None)
 
         if id_query is not None:
             # Get query from id
             query = api_query.get_by_id(id_query)
-            instance_list = oai_registry_api.get_all_activated_registry(order_by_field='name')
+            instance_list = oai_registry_api.get_all_activated_registry(
+                order_by_field="name"
+            )
             item_list = []
             for instance_item in instance_list:
                 checked = False
                 # compare instance with existing data source in query
                 # in order to know if they have to be checked
                 for data_source_item in query.data_sources:
-                    if 'instance_id' in data_source_item.query_options \
-                            and data_source_item.query_options['instance_id'] == str(instance_item.id):
+                    if "instance_id" in data_source_item.query_options and data_source_item.query_options[
+                        "instance_id"
+                    ] == str(
+                        instance_item.id
+                    ):
                         checked = True
 
                 # update the result item list for the context
-                item_list.extend([{'instance_id': instance_item.id,
-                                   'instance_name': instance_item.name,
-                                   'is_checked': checked}])
+                item_list.extend(
+                    [
+                        {
+                            "instance_id": instance_item.id,
+                            "instance_name": instance_item.name,
+                            "is_checked": checked,
+                        }
+                    ]
+                )
 
             # Here, data sources are instances
             context_params = dict()
-            context_params['instances'] = item_list
+            context_params["instances"] = item_list
 
             # return context
             context = {}
             context.update(request)
             context.update(context_params)
-            return render(request, 'core_explore_oaipmh_app/user/data_sources/list-content.html', context)
+            return render(
+                request,
+                "core_explore_oaipmh_app/user/data_sources/list-content.html",
+                context,
+            )
         else:
-            return HttpResponseBadRequest("Error during loading data sources from oaipmh search.")
+            return HttpResponseBadRequest(
+                "Error during loading data sources from oaipmh search."
+            )
     except Exception as e:
-        return HttpResponseBadRequest("Error during loading data sources from oaipmh search: %s" % str(e))
+        return HttpResponseBadRequest(
+            "Error during loading data sources from oaipmh search: %s" % str(e)
+        )
 
 
 def update_data_source_list_oaipmh(request):
@@ -69,24 +91,28 @@ def update_data_source_list_oaipmh(request):
 
     """
     try:
-        id_query = request.GET.get('id_query', None)
-        id_instance = request.GET.get('id_instance', None)
-        added = request.GET.get('to_be_added', None)
+        id_query = request.GET.get("id_query", None)
+        id_instance = request.GET.get("id_instance", None)
+        added = request.GET.get("to_be_added", None)
         to_be_added = json.loads(added) if added is not None else False
 
         # Get query from id
         if id_query is not None:
             query = api_query.get_by_id(id_query)
-            url_instance = request.build_absolute_uri(reverse("core_explore_oaipmh_rest_execute_query"))
+            url_instance = request.build_absolute_uri(
+                reverse("core_explore_oaipmh_rest_execute_query")
+            )
             instance = oai_registry_api.get_by_id(id_instance)
             if to_be_added:
                 # Instance have to be added in the query as a data source
-                authentication = Authentication(type='session')
-                data_source = DataSource(name=instance.name,
-                                         url_query=url_instance,
-                                         authentication=authentication,
-                                         order_by_field=','.join(DATA_SORTING_FIELDS))
-                data_source.query_options = {'instance_id': str(instance.id)}
+                authentication = Authentication(type="session")
+                data_source = DataSource(
+                    name=instance.name,
+                    url_query=url_instance,
+                    authentication=authentication,
+                    order_by_field=",".join(DATA_SORTING_FIELDS),
+                )
+                data_source.query_options = {"instance_id": str(instance.id)}
                 api_oaipmh_query.add_oaipmh_data_source(query, data_source)
             else:
                 api_oaipmh_query.remove_oaipmh_data_source(query, id_instance)

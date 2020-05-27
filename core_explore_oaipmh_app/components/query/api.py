@@ -18,8 +18,11 @@ def add_oaipmh_data_source(query, data_source):
     # because there is no constraint on the name
     data_source_found = False
     for data_source_item in query.data_sources:
-        if 'instance_id' in data_source_item.query_options \
-                and data_source_item.query_options['instance_id'] == data_source.query_options['instance_id']:
+        if (
+            "instance_id" in data_source_item.query_options
+            and data_source_item.query_options["instance_id"]
+            == data_source.query_options["instance_id"]
+        ):
             data_source_found = True
 
     if not data_source_found:
@@ -41,8 +44,10 @@ def remove_oaipmh_data_source(query, instance_id):
     """
     data_source = None
     for data_source_item in query.data_sources:
-        if 'instance_id' in data_source_item.query_options \
-                and data_source_item.query_options['instance_id'] == instance_id:
+        if (
+            "instance_id" in data_source_item.query_options
+            and data_source_item.query_options["instance_id"] == instance_id
+        ):
             data_source = data_source_item
 
     if data_source:

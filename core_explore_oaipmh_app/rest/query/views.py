@@ -7,8 +7,12 @@ from django.urls import reverse
 
 from core_explore_common_app.components.result.models import Result
 from core_explore_common_app.rest.result.serializers import ResultSerializer
-from core_main_app.utils.pagination.rest_framework_paginator.pagination import StandardResultsSetPagination
-from core_oaipmh_harvester_app.rest.oai_record.abstract_views import AbstractExecuteQueryView
+from core_main_app.utils.pagination.rest_framework_paginator.pagination import (
+    StandardResultsSetPagination,
+)
+from core_oaipmh_harvester_app.rest.oai_record.abstract_views import (
+    AbstractExecuteQueryView,
+)
 
 
 class ExecuteQueryView(AbstractExecuteQueryView):
@@ -20,10 +24,10 @@ class ExecuteQueryView(AbstractExecuteQueryView):
 
         """
         registries = []
-        options = self.request.data.get('options', None)
+        options = self.request.data.get("options", None)
         if options is not None:
             json_options = json.loads(options)
-            registries.append(json_options['instance_id'])
+            registries.append(json_options["instance_id"])
 
         return json.dumps(registries)
 
@@ -45,7 +49,9 @@ class ExecuteQueryView(AbstractExecuteQueryView):
         # Serialize object
         results = []
         url = reverse("core_explore_oaipmh_app_data_detail")
-        url_access_data = reverse("core_explore_oaipmh_app_rest_get_result_from_data_id")
+        url_access_data = reverse(
+            "core_explore_oaipmh_app_rest_get_result_from_data_id"
+        )
         # Template info
         template_info = dict()
         for data in page:
@@ -54,17 +60,25 @@ class ExecuteQueryView(AbstractExecuteQueryView):
             # get and store data's template information from metadata format
             if metadata_format not in template_info:
                 template = data.harvester_metadata_format.template
-                template_info[metadata_format] = \
-                    get_template_info_from_metadata_format_and_template(metadata_format, template)
+                template_info[
+                    metadata_format
+                ] = get_template_info_from_metadata_format_and_template(
+                    metadata_format, template
+                )
 
-            results.append(Result(title=data.title,
-                                  xml_content=data.xml_content,
-                                  template_info=template_info[metadata_format],
-                                  permission_url=None,
-                                  detail_url="{0}?id={1}".format(url, data.id),
-                                  last_modification_date=pytz.utc.localize(data.last_modification_date),
-                                  access_data_url="{0}?id={1}".format(url_access_data,
-                                                                      str(data.id))))
+            results.append(
+                Result(
+                    title=data.title,
+                    xml_content=data.xml_content,
+                    template_info=template_info[metadata_format],
+                    permission_url=None,
+                    detail_url="{0}?id={1}".format(url, data.id),
+                    last_modification_date=pytz.utc.localize(
+                        data.last_modification_date
+                    ),
+                    access_data_url="{0}?id={1}".format(url_access_data, str(data.id)),
+                )
+            )
 
         # Serialize results
         serialized_results = ResultSerializer(results, many=True)
@@ -72,7 +86,9 @@ class ExecuteQueryView(AbstractExecuteQueryView):
         return paginator.get_paginated_response(serialized_results.data)
 
 
-def get_template_info_from_metadata_format_and_template(harvester_metadata_format, template):
+def get_template_info_from_metadata_format_and_template(
+    harvester_metadata_format, template
+):
     """Get template information from metadata format and template
     Args:
         harvester_metadata_format: Metadata format
@@ -86,8 +102,10 @@ def get_template_info_from_metadata_format_and_template(harvester_metadata_forma
     name = harvester_metadata_format.get_display_name()
 
     # Here the id need to be set anyway because is expected by the serializer
-    return_value = {'id': template.id if template is not None else '',
-                    'name': name,
-                    'hash': harvester_metadata_format.hash}
+    return_value = {
+        "id": template.id if template is not None else "",
+        "name": name,
+        "hash": harvester_metadata_format.hash,
+    }
 
     return return_value

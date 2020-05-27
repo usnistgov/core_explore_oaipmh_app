@@ -19,41 +19,53 @@ class TestGetResultQueryRegistry(SimpleTestCase):
 
     @patch.object(ResultSerializer, "data")
     @patch.object(oai_record_api, "get_by_id")
-    def test_anonymous_returns_http_200(self, mock_oai_record_api_get_by_id, mock_serializer_data):
+    def test_anonymous_returns_http_200(
+        self, mock_oai_record_api_get_by_id, mock_serializer_data
+    ):
         # Arrange
         mock_oai_record_api_get_by_id.return_value = Mock(spec=OaiRecord)
         mock_serializer_data.return_value = Mock(spec=ResultSerializer)
 
         # Act
-        response = RequestMock.do_request_get(result_views.get_result_from_data_id, None, data=self.data)
+        response = RequestMock.do_request_get(
+            result_views.get_result_from_data_id, None, data=self.data
+        )
 
         # Assert
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     @patch.object(ResultSerializer, "data")
     @patch.object(oai_record_api, "get_by_id")
-    def test_authenticated_returns_http_200(self, mock_oai_record_api_get_by_id, mock_serializer_data):
+    def test_authenticated_returns_http_200(
+        self, mock_oai_record_api_get_by_id, mock_serializer_data
+    ):
         # Arrange
-        user = create_mock_user('1')
+        user = create_mock_user("1")
         mock_oai_record_api_get_by_id.return_value = Mock(spec=OaiRecord)
         mock_serializer_data.return_value = Mock(spec=ResultSerializer)
 
         # Act
-        response = RequestMock.do_request_get(result_views.get_result_from_data_id, user=user, data=self.data)
+        response = RequestMock.do_request_get(
+            result_views.get_result_from_data_id, user=user, data=self.data
+        )
 
         # Assert
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     @patch.object(ResultSerializer, "data")
     @patch.object(oai_record_api, "get_by_id")
-    def test_staff_returns_http_200(self, mock_oai_record_api_get_by_id, mock_serializer_data):
+    def test_staff_returns_http_200(
+        self, mock_oai_record_api_get_by_id, mock_serializer_data
+    ):
         # Arrange
-        user = create_mock_user('1', is_staff=True)
+        user = create_mock_user("1", is_staff=True)
         mock_oai_record_api_get_by_id.return_value = Mock(spec=OaiRecord)
         mock_serializer_data.return_value = Mock(spec=ResultSerializer)
 
         # Act
-        response = RequestMock.do_request_get(result_views.get_result_from_data_id, user=user, data=self.data)
+        response = RequestMock.do_request_get(
+            result_views.get_result_from_data_id, user=user, data=self.data
+        )
 
         # Assert
         self.assertEqual(response.status_code, status.HTTP_200_OK)
