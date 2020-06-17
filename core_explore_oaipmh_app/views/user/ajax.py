@@ -2,9 +2,10 @@
 """
 import json
 
-from django.urls import reverse
 from django.http.response import HttpResponseBadRequest, HttpResponse
 from django.shortcuts import render
+from django.urls import reverse
+from django.utils.html import escape
 
 import core_explore_common_app.components.query.api as api_query
 from core_explore_common_app.components.abstract_query.models import (
@@ -77,7 +78,7 @@ def get_data_source_list_oaipmh(request):
             )
     except Exception as e:
         return HttpResponseBadRequest(
-            "Error during loading data sources from oaipmh search: %s" % str(e)
+            "Error during loading data sources from oaipmh search: %s" % escape(str(e))
         )
 
 
@@ -121,4 +122,6 @@ def update_data_source_list_oaipmh(request):
         else:
             return HttpResponseBadRequest("Error during data source selection.")
     except Exception as e:
-        return HttpResponseBadRequest("Error during data source selection: %s" % str(e))
+        return HttpResponseBadRequest(
+            "Error during data source selection: %s" % escape(str(e))
+        )
