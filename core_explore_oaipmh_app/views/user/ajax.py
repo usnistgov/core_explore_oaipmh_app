@@ -1,6 +1,7 @@
 """ Ajax User core explore OAI-PMH
 """
 import json
+from urllib.parse import urljoin
 
 from django.http.response import HttpResponseBadRequest, HttpResponse
 from django.shortcuts import render
@@ -12,6 +13,7 @@ from core_explore_common_app.components.abstract_query.models import (
     Authentication,
     DataSource,
 )
+from core_explore_oaipmh_app import settings
 from core_explore_oaipmh_app.components.query import api as api_oaipmh_query
 from core_main_app.settings import DATA_SORTING_FIELDS
 from core_oaipmh_harvester_app.components.oai_registry import api as oai_registry_api
@@ -114,6 +116,15 @@ def update_data_source_list_oaipmh(request):
                     order_by_field=",".join(DATA_SORTING_FIELDS),
                 )
                 data_source.query_options = {"instance_id": str(instance.id)}
+
+                if "core_linked_records_app" in settings.INSTALLED_APPS:
+                    data_source.capabilities = {
+                        "url_pid": urljoin(
+                            instance.url.replace("/oai_pmh/server/", ""),
+                            reverse("core_linked_records_app_query"),
+                        )
+                    }
+
                 api_oaipmh_query.add_oaipmh_data_source(query, data_source)
             else:
                 api_oaipmh_query.remove_oaipmh_data_source(query, id_instance)
