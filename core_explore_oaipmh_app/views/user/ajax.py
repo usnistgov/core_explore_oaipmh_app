@@ -119,9 +119,8 @@ def update_data_source_list_oaipmh(request):
 
                 if "core_linked_records_app" in settings.INSTALLED_APPS:
                     data_source.capabilities = {
-                        "url_pid": urljoin(
-                            instance.url.replace("/oai_pmh/server/", ""),
-                            reverse("core_linked_records_app_query"),
+                        "url_pid": request.build_absolute_uri(
+                            reverse("core_linked_records_app_query_oaipmh")
                         )
                     }
 
