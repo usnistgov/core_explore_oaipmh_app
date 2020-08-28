@@ -5,7 +5,7 @@ from core_explore_common_app.components.query.api import upsert
 
 
 def add_oaipmh_data_source(query, data_source):
-    """ Add an oaipmh data source to the query
+    """Add an oaipmh data source to the query
 
     Args:
         query:
@@ -33,7 +33,7 @@ def add_oaipmh_data_source(query, data_source):
 
 
 def remove_oaipmh_data_source(query, instance_id):
-    """ Remove an oaipmh data source to the query
+    """Remove an oaipmh data source to the query
 
     Args:
         query:

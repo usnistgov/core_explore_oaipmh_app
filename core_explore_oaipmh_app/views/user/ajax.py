@@ -20,7 +20,7 @@ from core_oaipmh_harvester_app.components.oai_registry import api as oai_registr
 
 
 def get_data_source_list_oaipmh(request):
-    """ Ajax method to fill the list of data sources.
+    """Ajax method to fill the list of data sources.
 
     Args:
         request:
@@ -43,10 +43,10 @@ def get_data_source_list_oaipmh(request):
                 # compare instance with existing data source in query
                 # in order to know if they have to be checked
                 for data_source_item in query.data_sources:
-                    if "instance_id" in data_source_item.query_options and data_source_item.query_options[
-                        "instance_id"
-                    ] == str(
-                        instance_item.id
+                    if (
+                        "instance_id" in data_source_item.query_options
+                        and data_source_item.query_options["instance_id"]
+                        == str(instance_item.id)
                     ):
                         checked = True
 
@@ -85,7 +85,7 @@ def get_data_source_list_oaipmh(request):
 
 
 def update_data_source_list_oaipmh(request):
-    """ Ajax method to update query data sources in data base.
+    """Ajax method to update query data sources in data base.
 
     Args:
         request:

@@ -5,7 +5,7 @@ from core_oaipmh_harvester_app.components.oai_record import api as oai_record_ap
 
 
 def data_detail(request):
-    """ Display data's detail for OAI-PMH
+    """Display data's detail for OAI-PMH
 
     Args:
         request:

@@ -14,7 +14,7 @@ from core_oaipmh_harvester_app.components.oai_record import api as oai_record_ap
 @api_view(["GET"])
 @schema(None)
 def get_result_from_data_id(request):
-    """ Access data, Returns Result, Expects a data ID
+    """Access data, Returns Result, Expects a data ID
 
     Args:
         request:

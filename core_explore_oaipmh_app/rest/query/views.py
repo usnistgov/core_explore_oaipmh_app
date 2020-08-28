@@ -17,7 +17,7 @@ from core_oaipmh_harvester_app.rest.oai_record.abstract_views import (
 
 class ExecuteQueryView(AbstractExecuteQueryView):
     def get_registries(self):
-        """ Get a list of registry ids. Should return empty list if not found. JSON format.
+        """Get a list of registry ids. Should return empty list if not found. JSON format.
 
         Returns:
             List of registry ids (JSON format).
@@ -34,7 +34,7 @@ class ExecuteQueryView(AbstractExecuteQueryView):
         return json.dumps(registries)
 
     def build_response(self, data_list):
-        """ Build the paginated response.
+        """Build the paginated response.
 
         Args:
             data_list: List of data.
