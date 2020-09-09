@@ -19,6 +19,7 @@ def data_detail(request):
         template = record.harvester_metadata_format.template
 
         data_object = {
+            "record_id": record.id,
             "title": record.identifier,
             "xml_content": record.xml_content,
             "template": {
