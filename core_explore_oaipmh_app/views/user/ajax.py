@@ -33,7 +33,7 @@ def get_data_source_list_oaipmh(request):
 
         if id_query is not None:
             # Get query from id
-            query = api_query.get_by_id(id_query)
+            query = api_query.get_by_id(id_query, request.user)
             instance_list = oai_registry_api.get_all_activated_registry(
                 order_by_field="name"
             )
@@ -101,7 +101,7 @@ def update_data_source_list_oaipmh(request):
 
         # Get query from id
         if id_query is not None:
-            query = api_query.get_by_id(id_query)
+            query = api_query.get_by_id(id_query, request.user)
             url_instance = request.build_absolute_uri(
                 reverse("core_explore_oaipmh_rest_execute_query")
             )
@@ -124,9 +124,13 @@ def update_data_source_list_oaipmh(request):
                         )
                     }
 
-                api_oaipmh_query.add_oaipmh_data_source(query, data_source)
+                api_oaipmh_query.add_oaipmh_data_source(
+                    query, data_source, request.user
+                )
             else:
-                api_oaipmh_query.remove_oaipmh_data_source(query, id_instance)
+                api_oaipmh_query.remove_oaipmh_data_source(
+                    query, id_instance, request.user
+                )
 
             return HttpResponse()
         else:

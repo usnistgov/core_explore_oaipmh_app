@@ -1,15 +1,19 @@
 """ OaiPmh Query api
 """
 import core_explore_common_app.components.query.api as api_query
+from core_explore_common_app.access_control.api import can_access
 from core_explore_common_app.components.query.api import upsert
+from core_main_app.access_control.decorators import access_control
 
 
-def add_oaipmh_data_source(query, data_source):
+@access_control(can_access)
+def add_oaipmh_data_source(query, data_source, user):
     """Add an oaipmh data source to the query
 
     Args:
         query:
         data_source:
+        user:
 
     Returns:
 
@@ -29,10 +33,11 @@ def add_oaipmh_data_source(query, data_source):
         # add data source to query if not present
         query.data_sources.append(data_source)
         # update query
-        return upsert(query)
+        return upsert(query, user)
 
 
-def remove_oaipmh_data_source(query, instance_id):
+@access_control(can_access)
+def remove_oaipmh_data_source(query, instance_id, user):
     """Remove an oaipmh data source to the query
 
     Args:
@@ -51,4 +56,4 @@ def remove_oaipmh_data_source(query, instance_id):
             data_source = data_source_item
 
     if data_source:
-        return api_query.remove_data_source(query, data_source)
+        return api_query.remove_data_source(query, data_source, user)
