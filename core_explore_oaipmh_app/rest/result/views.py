@@ -31,7 +31,7 @@ def get_result_from_data_id(request):
             return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
         # reverse url for accessing data
-        record = oai_record_api.get_by_id(data_id)
+        record = oai_record_api.get_by_id(data_id, request.user)
         # No title for OaiRecord. Use of the id.
         result = Result(title=str(data_id), xml_content=record.xml_content)
         # Serialize results

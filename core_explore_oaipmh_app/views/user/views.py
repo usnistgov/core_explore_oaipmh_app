@@ -15,7 +15,7 @@ def data_detail(request):
 
     """
     try:
-        record = oai_record_api.get_by_id(request.GET["id"])
+        record = oai_record_api.get_by_id(request.GET["id"], request.user)
         template = record.harvester_metadata_format.template
 
         data_object = {
