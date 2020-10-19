@@ -1,5 +1,6 @@
 """Explore OAI-PMH user views
 """
+from core_main_app.access_control.exceptions import AccessControlError
 from core_main_app.utils.rendering import render
 from core_oaipmh_harvester_app.components.oai_record import api as oai_record_api
 from core_main_app.utils.view_builders import data as data_view_builder
@@ -32,10 +33,14 @@ def data_detail(request):
         page_context = data_view_builder.build_page(data_object)
 
         return data_view_builder.render_page(request, render, page_context)
+    except AccessControlError:
+        error_message = "Access Forbidden"
+        status_code = 403
     except Exception as e:
-        error_message = "An error occured: {0}".format(str(e))
-        return render(
-            request,
-            "core_main_app/common/commons/error.html",
-            context={"error": error_message},
-        )
+        error_message = "An error occurred: {0}".format(str(e))
+        status_code = 400
+    return render(
+        request,
+        "core_main_app/common/commons/error.html",
+        context={"error": error_message, "status_code": status_code},
+    )

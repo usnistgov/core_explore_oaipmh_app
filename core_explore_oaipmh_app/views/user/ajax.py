@@ -3,6 +3,7 @@
 import json
 from urllib.parse import urljoin
 
+from django.http import HttpResponseForbidden
 from django.http.response import HttpResponseBadRequest, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse
@@ -15,6 +16,7 @@ from core_explore_common_app.components.abstract_query.models import (
 )
 from core_explore_oaipmh_app import settings
 from core_explore_oaipmh_app.components.query import api as api_oaipmh_query
+from core_main_app.access_control.exceptions import AccessControlError
 from core_main_app.settings import DATA_SORTING_FIELDS
 from core_oaipmh_harvester_app.components.oai_registry import api as oai_registry_api
 
@@ -78,6 +80,8 @@ def get_data_source_list_oaipmh(request):
             return HttpResponseBadRequest(
                 "Error during loading data sources from oaipmh search."
             )
+    except AccessControlError:
+        return HttpResponseForbidden()
     except Exception as e:
         return HttpResponseBadRequest(
             "Error during loading data sources from oaipmh search: %s" % escape(str(e))
@@ -135,6 +139,8 @@ def update_data_source_list_oaipmh(request):
             return HttpResponse()
         else:
             return HttpResponseBadRequest("Error during data source selection.")
+    except AccessControlError:
+        return HttpResponseForbidden()
     except Exception as e:
         return HttpResponseBadRequest(
             "Error during data source selection: %s" % escape(str(e))
