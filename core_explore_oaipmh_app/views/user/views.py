@@ -32,7 +32,9 @@ def data_detail(request):
 
         page_context = data_view_builder.build_page(data_object)
 
-        return data_view_builder.render_page(request, render, page_context)
+        return data_view_builder.render_page(
+            request, render, "core_main_app/user/data/detail.html", page_context
+        )
     except AccessControlError:
         error_message = "Access Forbidden"
         status_code = 403
