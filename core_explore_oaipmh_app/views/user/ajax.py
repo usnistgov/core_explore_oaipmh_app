@@ -1,7 +1,6 @@
 """ Ajax User core explore OAI-PMH
 """
 import json
-from urllib.parse import urljoin
 
 from django.http import HttpResponseForbidden
 from django.http.response import HttpResponseBadRequest, HttpResponse

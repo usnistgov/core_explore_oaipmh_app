@@ -2,8 +2,8 @@
 """
 from core_main_app.access_control.exceptions import AccessControlError
 from core_main_app.utils.rendering import render
-from core_oaipmh_harvester_app.components.oai_record import api as oai_record_api
 from core_main_app.utils.view_builders import data as data_view_builder
+from core_oaipmh_harvester_app.components.oai_record import api as oai_record_api
 
 
 def data_detail(request):
