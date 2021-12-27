@@ -44,10 +44,10 @@ def get_data_source_list_oaipmh(request):
                 # compare instance with existing data source in query
                 # in order to know if they have to be checked
                 for data_source_item in query.data_sources:
-                    if (
-                        "instance_id" in data_source_item.query_options
-                        and data_source_item.query_options["instance_id"]
-                        == str(instance_item.id)
+                    if "instance_id" in data_source_item[
+                        "query_options"
+                    ] and data_source_item["query_options"]["instance_id"] == str(
+                        instance_item.id
                     ):
                         checked = True
 
@@ -111,14 +111,14 @@ def update_data_source_list_oaipmh(request):
             instance = oai_registry_api.get_by_id(id_instance)
             if to_be_added:
                 # Instance have to be added in the query as a data source
-                authentication = Authentication(type="session")
+                authentication = Authentication(auth_type="session")
                 data_source = DataSource(
                     name=instance.name,
                     url_query=url_instance,
                     authentication=authentication,
                     order_by_field=",".join(DATA_SORTING_FIELDS),
+                    query_options={"instance_id": str(instance.id)},
                 )
-                data_source.query_options = {"instance_id": str(instance.id)}
 
                 if "core_linked_records_app" in settings.INSTALLED_APPS:
                     data_source.capabilities = {
