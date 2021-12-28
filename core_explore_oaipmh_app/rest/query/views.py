@@ -2,7 +2,6 @@
 """
 import json
 
-import pytz
 from django.urls import reverse
 
 from core_explore_common_app.components.result.models import Result
@@ -29,7 +28,7 @@ class ExecuteQueryView(AbstractExecuteQueryView):
             if type(options) is str:  # Try parsing options only if it is a string
                 options = json.loads(options)
 
-            registries.append(options["instance_id"])
+            registries.append(int(options["instance_id"]))
 
         return json.dumps(registries)
 
@@ -75,9 +74,7 @@ class ExecuteQueryView(AbstractExecuteQueryView):
                     template_info=template_info[metadata_format],
                     permission_url=None,
                     detail_url="{0}?id={1}".format(url, data.id),
-                    last_modification_date=pytz.utc.localize(
-                        data.last_modification_date
-                    ),
+                    last_modification_date=data.last_modification_date,
                     access_data_url="{0}?id={1}".format(url_access_data, str(data.id)),
                 )
             )
