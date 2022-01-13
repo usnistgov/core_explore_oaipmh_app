@@ -62,6 +62,7 @@ TEMPLATES = [
 
 STATIC_URL = "/static/"
 ROOT_URLCONF = "tests.urls"
+CELERYBEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 
 MOCK_DATABASE_NAME = "db_mock"
 MOCK_DATABASE_HOST = "mongomock://localhost"
