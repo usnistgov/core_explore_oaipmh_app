@@ -13,6 +13,7 @@ INSTALLED_APPS = [
     "defender",
     "tz_detect",
     "menu",
+    "django_celery_beat",
     # Local apps
     "core_main_app",
     "core_explore_common_app",
@@ -69,3 +70,4 @@ DATA_SORTING_FIELDS = ["+title"]
 CUSTOM_NAME = "Curator"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+CELERYBEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
