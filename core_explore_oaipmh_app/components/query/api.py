@@ -50,8 +50,8 @@ def remove_oaipmh_data_source(query, instance_id, user):
     data_source = None
     for data_source_item in query.data_sources:
         if (
-            "instance_id" in data_source_item.query_options
-            and data_source_item.query_options["instance_id"] == instance_id
+            "instance_id" in data_source_item["query_options"]
+            and data_source_item["query_options"]["instance_id"] == instance_id
         ):
             data_source = data_source_item
 
