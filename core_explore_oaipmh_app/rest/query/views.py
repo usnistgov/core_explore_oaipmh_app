@@ -16,6 +16,8 @@ from core_oaipmh_harvester_app.rest.oai_record.abstract_views import (
 
 
 class ExecuteQueryView(AbstractExecuteQueryView):
+    """Execute Query View"""
+
     def get_registries(self):
         """Get a list of registry ids. Should return empty list if not found. JSON format.
 
@@ -74,11 +76,11 @@ class ExecuteQueryView(AbstractExecuteQueryView):
                     xml_content=data.xml_content,
                     template_info=template_info[metadata_format],
                     permission_url=None,
-                    detail_url="{0}?id={1}".format(url, data.id),
+                    detail_url=f"{url}?id={data}",
                     last_modification_date=data.last_modification_date.replace(
                         tzinfo=pytz.UTC
                     ),
-                    access_data_url="{0}?id={1}".format(url_access_data, str(data.id)),
+                    access_data_url=f"{url_access_data}?id={ str(data.id)}",
                 )
             )
 

@@ -5,17 +5,21 @@ from mock.mock import patch
 from rest_framework import status
 from rest_framework.response import Response
 
-from core_explore_oaipmh_app.rest.query import views as query_views
 from core_main_app.utils.tests_tools.MockUser import create_mock_user
 from core_main_app.utils.tests_tools.RequestMock import RequestMock
 from core_oaipmh_harvester_app.rest.oai_record.abstract_views import (
     AbstractExecuteQueryView,
 )
+from core_explore_oaipmh_app.rest.query import views as query_views
 
 
 class TestGetExecuteQueryRegistry(SimpleTestCase):
+    """Test Get Execute Query Registry"""
+
     def setUp(self):
-        super(TestGetExecuteQueryRegistry, self).setUp()
+        """setUp"""
+
+        super().setUp()
         self.one_record_data = {
             "query": "{"
             '"experiment.experimentType.tracerDiffusivity.material.materialName": "Test 1"}'
@@ -24,6 +28,8 @@ class TestGetExecuteQueryRegistry(SimpleTestCase):
 
     @patch.object(AbstractExecuteQueryView, "execute_query")
     def test_anonymous_returns_http_200(self, mock_execute_query):
+        """test_anonymous_returns_http_200"""
+
         # Arrange
         data = self.one_record_data
         mock_execute_query.return_value = Response(status=status.HTTP_200_OK)
@@ -38,6 +44,8 @@ class TestGetExecuteQueryRegistry(SimpleTestCase):
 
     @patch.object(AbstractExecuteQueryView, "execute_query")
     def test_authenticated_returns_http_200(self, mock_execute_query):
+        """test_authenticated_returns_http_200"""
+
         # Arrange
         user = create_mock_user("1")
         data = self.one_record_data
@@ -53,6 +61,8 @@ class TestGetExecuteQueryRegistry(SimpleTestCase):
 
     @patch.object(AbstractExecuteQueryView, "execute_query")
     def test_staff_returns_http_200(self, mock_execute_query):
+        """test_staff_returns_http_200"""
+
         # Arrange
         user = create_mock_user("1", is_staff=True)
         data = self.one_record_data
@@ -68,8 +78,12 @@ class TestGetExecuteQueryRegistry(SimpleTestCase):
 
 
 class TestPostExecuteQueryRegistry(SimpleTestCase):
+    """Test Post Execute Query Registry"""
+
     def setUp(self):
-        super(TestPostExecuteQueryRegistry, self).setUp()
+        """setUp"""
+
+        super().setUp()
         self.one_record_data = {
             "query": "{"
             '"experiment.experimentType.tracerDiffusivity.material.materialName": "Test 1"}'
@@ -78,6 +92,8 @@ class TestPostExecuteQueryRegistry(SimpleTestCase):
 
     @patch.object(AbstractExecuteQueryView, "execute_query")
     def test_anonymous_returns_http_200(self, mock_execute_query):
+        """test_anonymous_returns_http_200"""
+
         # Arrange
         data = self.one_record_data
         mock_execute_query.return_value = Response(status=status.HTTP_200_OK)
@@ -92,6 +108,8 @@ class TestPostExecuteQueryRegistry(SimpleTestCase):
 
     @patch.object(AbstractExecuteQueryView, "execute_query")
     def test_authenticated_returns_http_200(self, mock_execute_query):
+        """test_authenticated_returns_http_200"""
+
         # Arrange
         user = create_mock_user("1")
         data = self.one_record_data
@@ -107,6 +125,8 @@ class TestPostExecuteQueryRegistry(SimpleTestCase):
 
     @patch.object(AbstractExecuteQueryView, "execute_query")
     def test_staff_returns_http_200(self, mock_execute_query):
+        """test_staff_returns_http_200"""
+
         # Arrange
         user = create_mock_user("1", is_staff=True)
         data = self.one_record_data

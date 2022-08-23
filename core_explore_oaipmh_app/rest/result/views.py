@@ -42,7 +42,7 @@ def get_result_from_data_id(request):
         # The record doesn't exist with this id
         content = {"message": "No Record found with the given id."}
         return Response(content, status=status.HTTP_404_NOT_FOUND)
-    except Exception as e:
+    except Exception as exception:
         # if something went wrong, return an internal server error
-        content = {"message": str(e)}
+        content = {"message": str(exception)}
         return Response(content, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

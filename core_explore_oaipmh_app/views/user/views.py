@@ -38,8 +38,8 @@ def data_detail(request):
     except AccessControlError:
         error_message = "Access Forbidden"
         status_code = 403
-    except Exception as e:
-        error_message = "An error occurred: {0}".format(str(e))
+    except Exception as exception:
+        error_message = f"An error occurred: {str(exception)}"
         status_code = 400
     return render(
         request,
