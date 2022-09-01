@@ -76,11 +76,11 @@ class ExecuteQueryView(AbstractExecuteQueryView):
                     xml_content=data.xml_content,
                     template_info=template_info[metadata_format],
                     permission_url=None,
-                    detail_url=f"{url}?id={data}",
+                    detail_url=f"{url}?id={str(data.id)}",
                     last_modification_date=data.last_modification_date.replace(
                         tzinfo=pytz.UTC
                     ),
-                    access_data_url=f"{url_access_data}?id={ str(data.id)}",
+                    access_data_url=f"{url_access_data}?id={str(data.id)}",
                 )
             )
 
