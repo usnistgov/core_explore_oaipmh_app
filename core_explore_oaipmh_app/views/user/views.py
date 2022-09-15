@@ -2,8 +2,8 @@
 """
 from core_main_app.access_control.exceptions import AccessControlError
 from core_main_app.utils.rendering import render
-from core_oaipmh_harvester_app.components.oai_record import api as oai_record_api
 from core_main_app.utils.view_builders import data as data_view_builder
+from core_oaipmh_harvester_app.components.oai_record import api as oai_record_api
 
 
 def data_detail(request):
@@ -38,8 +38,8 @@ def data_detail(request):
     except AccessControlError:
         error_message = "Access Forbidden"
         status_code = 403
-    except Exception as e:
-        error_message = "An error occurred: {0}".format(str(e))
+    except Exception as exception:
+        error_message = f"An error occurred: {str(exception)}"
         status_code = 400
     return render(
         request,

@@ -4,17 +4,20 @@ from django.test import SimpleTestCase
 from mock.mock import patch, Mock
 from rest_framework import status
 
-from core_explore_common_app.rest.result.serializers import ResultSerializer
-from core_explore_oaipmh_app.rest.result import views as result_views
 from core_main_app.utils.tests_tools.MockUser import create_mock_user
 from core_main_app.utils.tests_tools.RequestMock import RequestMock
 from core_oaipmh_harvester_app.components.oai_record import api as oai_record_api
 from core_oaipmh_harvester_app.components.oai_record.models import OaiRecord
+from core_explore_common_app.rest.result.serializers import ResultSerializer
+from core_explore_oaipmh_app.rest.result import views as result_views
 
 
 class TestGetResultQueryRegistry(SimpleTestCase):
+    """Test Get Result Query Registry"""
+
     def setUp(self):
-        super(TestGetResultQueryRegistry, self).setUp()
+        """setUp"""
+        super().setUp()
         self.data = {"id": 1}
 
     @patch.object(ResultSerializer, "data")
@@ -22,6 +25,8 @@ class TestGetResultQueryRegistry(SimpleTestCase):
     def test_anonymous_returns_http_200(
         self, mock_oai_record_api_get_by_id, mock_serializer_data
     ):
+        """test_anonymous_returns_http_200"""
+
         # Arrange
         mock_oai_record_api_get_by_id.return_value = Mock(spec=OaiRecord)
         mock_serializer_data.return_value = Mock(spec=ResultSerializer)
@@ -39,6 +44,8 @@ class TestGetResultQueryRegistry(SimpleTestCase):
     def test_authenticated_returns_http_200(
         self, mock_oai_record_api_get_by_id, mock_serializer_data
     ):
+        """test_authenticated_returns_http_200"""
+
         # Arrange
         user = create_mock_user("1")
         mock_oai_record_api_get_by_id.return_value = Mock(spec=OaiRecord)
@@ -57,6 +64,8 @@ class TestGetResultQueryRegistry(SimpleTestCase):
     def test_staff_returns_http_200(
         self, mock_oai_record_api_get_by_id, mock_serializer_data
     ):
+        """test_staff_returns_http_200"""
+
         # Arrange
         user = create_mock_user("1", is_staff=True)
         mock_oai_record_api_get_by_id.return_value = Mock(spec=OaiRecord)

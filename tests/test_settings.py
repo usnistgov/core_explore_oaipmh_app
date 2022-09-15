@@ -1,4 +1,5 @@
-from core_main_app.utils.databases.mongoengine_database import Database
+""" Test settings
+"""
 
 SECRET_KEY = "fake-key"
 
@@ -15,8 +16,12 @@ INSTALLED_APPS = [
     "defender",
     "tz_detect",
     "menu",
+    "django_celery_beat",
     # Local apps
     "core_main_app",
+    "core_explore_common_app",
+    "core_oaipmh_common_app",
+    "core_oaipmh_harvester_app",
     "tests",
 ]
 
@@ -53,7 +58,8 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-                "core_main_app.utils.custom_context_processors.domain_context_processor",  # Needed by any curator app
+                # Needed by any curator app
+                "core_main_app.utils.custom_context_processors.domain_context_processor",
                 "django.template.context_processors.i18n",
             ],
         },
@@ -64,12 +70,9 @@ STATIC_URL = "/static/"
 ROOT_URLCONF = "tests.urls"
 CELERYBEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 
-MOCK_DATABASE_NAME = "db_mock"
-MOCK_DATABASE_HOST = "mongomock://localhost"
-
 DATA_SORTING_FIELDS = ["+title"]
 
 CUSTOM_NAME = "Curator"
 
-database = Database(MOCK_DATABASE_HOST, MOCK_DATABASE_NAME)
-database.connect()
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+CELERYBEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
