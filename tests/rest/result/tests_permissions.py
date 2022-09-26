@@ -6,7 +6,9 @@ from rest_framework import status
 
 from core_main_app.utils.tests_tools.MockUser import create_mock_user
 from core_main_app.utils.tests_tools.RequestMock import RequestMock
-from core_oaipmh_harvester_app.components.oai_record import api as oai_record_api
+from core_oaipmh_harvester_app.components.oai_record import (
+    api as oai_record_api,
+)
 from core_oaipmh_harvester_app.components.oai_record.models import OaiRecord
 from core_explore_common_app.rest.result.serializers import ResultSerializer
 from core_explore_oaipmh_app.rest.result import views as result_views

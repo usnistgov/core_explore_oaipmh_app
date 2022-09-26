@@ -3,7 +3,9 @@
 from core_main_app.access_control.exceptions import AccessControlError
 from core_main_app.utils.rendering import render
 from core_main_app.utils.view_builders import data as data_view_builder
-from core_oaipmh_harvester_app.components.oai_record import api as oai_record_api
+from core_oaipmh_harvester_app.components.oai_record import (
+    api as oai_record_api,
+)
 
 
 def data_detail(request):
@@ -33,7 +35,10 @@ def data_detail(request):
         page_context = data_view_builder.build_page(data_object)
 
         return data_view_builder.render_page(
-            request, render, "core_main_app/user/data/detail.html", page_context
+            request,
+            render,
+            "core_main_app/user/data/detail.html",
+            page_context,
         )
     except AccessControlError:
         error_message = "Access Forbidden"

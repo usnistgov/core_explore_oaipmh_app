@@ -28,7 +28,9 @@ class ExecuteQueryView(AbstractExecuteQueryView):
         registries = []
         options = self.request.data.get("options", None)
         if options is not None:
-            if type(options) is str:  # Try parsing options only if it is a string
+            if (
+                type(options) is str
+            ):  # Try parsing options only if it is a string
                 options = json.loads(options)
 
             registries.append(int(options["instance_id"]))

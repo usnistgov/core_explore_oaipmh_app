@@ -26,7 +26,9 @@ class TestGetDataSourceListOaipmh(MongoIntegrationBaseTestCase):
         self.fixture = AccessControlDataFixture()
         self.fixture.insert_data()
 
-    def test_an_anonymous_user_can_not_access_data_sources_of_a_user_query(self):
+    def test_an_anonymous_user_can_not_access_data_sources_of_a_user_query(
+        self,
+    ):
         """test_an_anonymous_user_can_not_access_data_sources_of_a_user_query"""
 
         request = self.factory.get("core_explore_oaipmh_app_get_data_sources")
@@ -48,10 +50,14 @@ class TestUpdateDataSourceListOaipmh(MongoIntegrationBaseTestCase):
         self.fixture = AccessControlDataFixture()
         self.fixture.insert_data()
 
-    def test_an_anonymous_user_can_not_access_data_sources_of_a_user_query(self):
+    def test_an_anonymous_user_can_not_access_data_sources_of_a_user_query(
+        self,
+    ):
         """test_an_anonymous_user_can_not_access_data_sources_of_a_user_query"""
 
-        request = self.factory.get("core_explore_oaipmh_app_update_data_sources")
+        request = self.factory.get(
+            "core_explore_oaipmh_app_update_data_sources"
+        )
         request.user = self.anonymous
         request.GET = {"id_query": str(self.fixture.query_user1.id)}
         response = update_data_source_list_oaipmh(request)
@@ -70,7 +76,9 @@ class TestViewData(MongoIntegrationBaseTestCase):
         self.fixture = AccessControlDataFixture()
         self.fixture.insert_data()
 
-    def test_an_anonymous_user_can_not_access_a_data_that_is_not_in_a_workspace(self):
+    def test_an_anonymous_user_can_not_access_a_data_that_is_not_in_a_workspace(
+        self,
+    ):
         """test_an_anonymous_user_can_not_access_a_data_that_is_not_in_a_workspace"""
 
         request = self.factory.get("core_explore_oaipmh_app_data_detail")
@@ -80,7 +88,8 @@ class TestViewData(MongoIntegrationBaseTestCase):
         }
         response = data_detail(request)
         self.assertTrue(
-            self.fixture.data_no_workspace.title not in response.content.decode()
+            self.fixture.data_no_workspace.title
+            not in response.content.decode()
         )
         self.assertTrue("Error 403" in response.content.decode())
 
@@ -96,7 +105,8 @@ class TestViewData(MongoIntegrationBaseTestCase):
         }
         response = data_detail(request)
         self.assertTrue(
-            self.fixture.data_workspace_1.title not in response.content.decode()
+            self.fixture.data_workspace_1.title
+            not in response.content.decode()
         )
         self.assertTrue("Error 403" in response.content.decode())
 
@@ -112,6 +122,7 @@ class TestViewData(MongoIntegrationBaseTestCase):
         }
         response = data_detail(request)
         self.assertTrue(
-            self.fixture.data_public_workspace.title not in response.content.decode()
+            self.fixture.data_public_workspace.title
+            not in response.content.decode()
         )
         self.assertTrue("Error 403" in response.content.decode())

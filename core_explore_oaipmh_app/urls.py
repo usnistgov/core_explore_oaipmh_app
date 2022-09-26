@@ -18,7 +18,9 @@ urlpatterns = [
         name="core_explore_oaipmh_app_update_data_sources",
     ),
     re_path(
-        r"^data", user_views.data_detail, name="core_explore_oaipmh_app_data_detail"
+        r"^data",
+        user_views.data_detail,
+        name="core_explore_oaipmh_app_data_detail",
     ),
     re_path(r"^rest/", include("core_explore_oaipmh_app.rest.urls")),
 ]

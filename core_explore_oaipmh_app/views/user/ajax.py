@@ -15,7 +15,9 @@ from core_explore_common_app.components.abstract_query.models import (
     Authentication,
     DataSource,
 )
-from core_oaipmh_harvester_app.components.oai_registry import api as oai_registry_api
+from core_oaipmh_harvester_app.components.oai_registry import (
+    api as oai_registry_api,
+)
 from core_explore_oaipmh_app import settings
 from core_explore_oaipmh_app.components.query import api as api_oaipmh_query
 
@@ -105,7 +107,9 @@ def update_data_source_list_oaipmh(request):
 
         # Get query from id
         if id_query is None:
-            return HttpResponseBadRequest("Error during data source selection.")
+            return HttpResponseBadRequest(
+                "Error during data source selection."
+            )
 
         query = api_query.get_by_id(id_query, request.user)
         url_instance = request.build_absolute_uri(
@@ -130,9 +134,13 @@ def update_data_source_list_oaipmh(request):
                     )
                 }
 
-            api_oaipmh_query.add_oaipmh_data_source(query, data_source, request.user)
+            api_oaipmh_query.add_oaipmh_data_source(
+                query, data_source, request.user
+            )
         else:
-            api_oaipmh_query.remove_oaipmh_data_source(query, id_instance, request.user)
+            api_oaipmh_query.remove_oaipmh_data_source(
+                query, id_instance, request.user
+            )
 
         return HttpResponse()
 
