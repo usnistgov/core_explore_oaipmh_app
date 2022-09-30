@@ -1,7 +1,7 @@
 """ Permissions Test for OAI Explore Query Rest API
 """
 from django.test import SimpleTestCase
-from mock.mock import patch
+from unittest.mock import patch
 from rest_framework import status
 from rest_framework.response import Response
 
