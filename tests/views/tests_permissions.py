@@ -1,6 +1,6 @@
 """ Permission tests on views
 """
-from django.test import RequestFactory
+from django.test import RequestFactory, override_settings
 
 from core_main_app.utils.integration_tests.integration_base_test_case import (
     MongoIntegrationBaseTestCase,
@@ -76,6 +76,7 @@ class TestViewData(MongoIntegrationBaseTestCase):
         self.fixture = AccessControlDataFixture()
         self.fixture.insert_data()
 
+    @override_settings(CAN_ANONYMOUS_ACCESS_PUBLIC_DOCUMENT=False)
     def test_an_anonymous_user_can_not_access_a_data_that_is_not_in_a_workspace(
         self,
     ):
@@ -93,6 +94,7 @@ class TestViewData(MongoIntegrationBaseTestCase):
         )
         self.assertTrue("Error 403" in response.content.decode())
 
+    @override_settings(CAN_ANONYMOUS_ACCESS_PUBLIC_DOCUMENT=False)
     def test_an_anonymous_user_can_not_access_a_data_that_is_in_a_private_workspace(
         self,
     ):
@@ -110,6 +112,7 @@ class TestViewData(MongoIntegrationBaseTestCase):
         )
         self.assertTrue("Error 403" in response.content.decode())
 
+    @override_settings(CAN_ANONYMOUS_ACCESS_PUBLIC_DOCUMENT=False)
     def test_an_anonymous_user_can_not_access_a_data_that_is_in_a_public_workspace_and_access_setting_is_false(
         self,
     ):
