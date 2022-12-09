@@ -19,7 +19,7 @@ from core_oaipmh_harvester_app.components.oai_registry import (
     api as oai_registry_api,
 )
 from core_explore_oaipmh_app import settings
-from core_explore_oaipmh_app.components.query import api as api_oaipmh_query
+from core_explore_oaipmh_app.components.query import api as oaipmh_query_api
 
 
 def get_data_source_list_oaipmh(request):
@@ -128,17 +128,17 @@ def update_data_source_list_oaipmh(request):
             )
 
             if "core_linked_records_app" in settings.INSTALLED_APPS:
-                data_source.capabilities = {
+                data_source["capabilities"] = {
                     "url_pid": request.build_absolute_uri(
                         reverse("core_linked_records_app_query_oaipmh")
                     )
                 }
 
-            api_oaipmh_query.add_oaipmh_data_source(
+            oaipmh_query_api.add_oaipmh_data_source(
                 query, data_source, request.user
             )
         else:
-            api_oaipmh_query.remove_oaipmh_data_source(
+            oaipmh_query_api.remove_oaipmh_data_source(
                 query, id_instance, request.user
             )
 

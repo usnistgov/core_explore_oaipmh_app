@@ -1,12 +1,14 @@
 """ Fixtures files for Data
 """
 from core_explore_common_app.components.query.models import Query
+from core_linked_records_app.components.pid_settings.models import PidSettings
 from core_main_app.components.data.models import Data
 from core_main_app.components.template.models import Template
 from core_main_app.components.workspace.models import Workspace
 from core_main_app.utils.integration_tests.fixture_interface import (
     FixtureInterface,
 )
+from tests import test_settings
 
 
 class AccessControlDataFixture(FixtureInterface):
@@ -28,10 +30,15 @@ class AccessControlDataFixture(FixtureInterface):
 
         """
         # Make a connexion with a mock database
+        self.generate_pid_settings()
         self.generate_template()
         self.generate_workspaces()
         self.generate_data_collection()
         self.generate_queries()
+
+    @staticmethod
+    def generate_pid_settings():
+        PidSettings(auto_set_pid=test_settings.AUTO_SET_PID).save()
 
     def generate_data_collection(self):
         """Generate a Data collection.

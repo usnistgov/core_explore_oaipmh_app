@@ -20,8 +20,10 @@ INSTALLED_APPS = [
     # Local apps
     "core_main_app",
     "core_explore_common_app",
+    "core_explore_oaipmh_app",
     "core_oaipmh_common_app",
     "core_oaipmh_harvester_app",
+    "core_linked_records_app",
     "tests",
 ]
 
@@ -67,7 +69,7 @@ TEMPLATES = [
 ]
 
 STATIC_URL = "/static/"
-ROOT_URLCONF = "tests.urls"
+ROOT_URLCONF = "tests.test_urls"
 
 DATA_SORTING_FIELDS = ["+title"]
 
@@ -75,6 +77,8 @@ CUSTOM_NAME = "Curator"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 CELERYBEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
+
+AUTO_SET_PID = False
 
 MONGODB_INDEXING = False
 MONGODB_ASYNC_SAVE = False

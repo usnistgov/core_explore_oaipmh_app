@@ -1,0 +1,1 @@
+core-linked-records-app==2.1.*
