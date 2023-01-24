@@ -9,7 +9,7 @@ from django.urls import reverse
 from django.utils.html import escape
 
 from core_main_app.access_control.exceptions import AccessControlError
-from core_main_app.settings import DATA_SORTING_FIELDS
+from core_main_app.settings import DATA_SORTING_FIELDS, SERVER_URI
 import core_explore_common_app.components.query.api as api_query
 from core_explore_common_app.components.abstract_query.models import (
     Authentication,
@@ -118,16 +118,13 @@ def update_data_source_list_oaipmh(request):
             )
 
         query = api_query.get_by_id(id_query, request.user)
-        url_instance = request.build_absolute_uri(
-            reverse("core_explore_oaipmh_rest_execute_query")
-        )
         instance = oai_registry_api.get_by_id(id_instance)
         if to_be_added:
             # Instance have to be added in the query as a data source
             authentication = Authentication(auth_type="session")
             data_source = DataSource(
                 name=instance.name,
-                url_query=url_instance,
+                url_query=SERVER_URI,
                 authentication=authentication,
                 order_by_field=",".join(DATA_SORTING_FIELDS),
                 query_options={"instance_id": str(instance.id)},

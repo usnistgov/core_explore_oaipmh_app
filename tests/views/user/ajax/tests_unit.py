@@ -21,7 +21,7 @@ from core_oaipmh_harvester_app.components.oai_harvester_metadata_format.models i
     OaiHarvesterMetadataFormat,
 )
 from core_main_app.access_control.exceptions import AccessControlError
-from core_main_app.settings import DATA_SORTING_FIELDS
+from core_main_app.settings import DATA_SORTING_FIELDS, SERVER_URI
 from core_main_app.utils.tests_tools.MockUser import create_mock_user
 from core_main_app.templatetags.xsl_transform_tag import (
     _render_xml_as_html,
@@ -139,7 +139,7 @@ class TestUpdateDataSourceListOaipmh(TestCase):
             "mock_query",
             {
                 "name": mock_oai_registry.name,
-                "url_query": mock_url_instance,
+                "url_query": SERVER_URI,
                 "authentication": {"auth_type": "session", "params": {}},
                 "order_by_field": ",".join(DATA_SORTING_FIELDS),
                 "query_options": {"instance_id": str(mock_oai_registry.id)},
@@ -155,21 +155,17 @@ class TestUpdateDataSourceListOaipmh(TestCase):
     @patch(
         "core_explore_oaipmh_app.views.user.ajax.oai_registry_api.get_by_id"
     )
-    @patch("django.http.HttpRequest.build_absolute_uri")
     @patch("core_explore_oaipmh_app.views.user.ajax.api_query.get_by_id")
     def test_data_source_capabilities_empty_when_linked_records_not_installed(
         self,
         mock_query_get_by_id,
-        mock_build_absolute_uri,
         mock_oai_registry_get_by_id,
         mock_add_oaipmh_data_source,
         mock_installed_apps,
     ):
         """test_data_source_capabilities_empty_when_linked_records_not_installed"""
         mock_oai_registry = MagicMock()
-        mock_url_instance = "mock_url_instance"
         mock_query_get_by_id.return_value = "mock_query"
-        mock_build_absolute_uri.return_value = mock_url_instance
         mock_oai_registry_get_by_id.return_value = mock_oai_registry
         mock_installed_apps.return_value = []
 
@@ -180,7 +176,7 @@ class TestUpdateDataSourceListOaipmh(TestCase):
             "mock_query",
             {
                 "name": mock_oai_registry.name,
-                "url_query": mock_url_instance,
+                "url_query": SERVER_URI,
                 "authentication": {"auth_type": "session", "params": {}},
                 "order_by_field": ",".join(DATA_SORTING_FIELDS),
                 "query_options": {"instance_id": str(mock_oai_registry.id)},
@@ -195,20 +191,16 @@ class TestUpdateDataSourceListOaipmh(TestCase):
     @patch(
         "core_explore_oaipmh_app.views.user.ajax.oai_registry_api.get_by_id"
     )
-    @patch("django.http.HttpRequest.build_absolute_uri")
     @patch("core_explore_oaipmh_app.views.user.ajax.api_query.get_by_id")
     def test_add_oaipmh_data_source_fails_returns_400(
         self,
         mock_query_get_by_id,
-        mock_build_absolute_uri,
         mock_oai_registry_get_by_id,
         mock_add_oaipmh_data_source,
     ):
         """test_add_oaipmh_data_source_fails_returns_400"""
         mock_oai_registry = MagicMock()
-        mock_url_instance = "mock_url_instance"
         mock_query_get_by_id.return_value = "mock_query"
-        mock_build_absolute_uri.return_value = mock_url_instance
         mock_oai_registry_get_by_id.return_value = mock_oai_registry
         mock_add_oaipmh_data_source.side_effect = Exception(
             "mock_add_oaipmh_data_source_exception"
@@ -227,20 +219,16 @@ class TestUpdateDataSourceListOaipmh(TestCase):
     @patch(
         "core_explore_oaipmh_app.views.user.ajax.oai_registry_api.get_by_id"
     )
-    @patch("django.http.HttpRequest.build_absolute_uri")
     @patch("core_explore_oaipmh_app.views.user.ajax.api_query.get_by_id")
     def test_remove_oaipmh_data_source_called_when_not_to_be_added(
         self,
         mock_query_get_by_id,
-        mock_build_absolute_uri,
         mock_oai_registry_get_by_id,
         mock_remove_oaipmh_data_source,
     ):
         """test_remove_oaipmh_data_source_called_when_not_to_be_added"""
         mock_oai_registry = MagicMock()
-        mock_url_instance = "mock_url_instance"
         mock_query_get_by_id.return_value = "mock_query"
-        mock_build_absolute_uri.return_value = mock_url_instance
         mock_oai_registry_get_by_id.return_value = mock_oai_registry
 
         self._send_request(
@@ -258,21 +246,17 @@ class TestUpdateDataSourceListOaipmh(TestCase):
     @patch(
         "core_explore_oaipmh_app.views.user.ajax.oai_registry_api.get_by_id"
     )
-    @patch("django.http.HttpRequest.build_absolute_uri")
     @patch("core_explore_oaipmh_app.views.user.ajax.api_query.get_by_id")
     def test_remove_oaipmh_data_source_fails_returns_400(
         self,
         mock_query_get_by_id,
-        mock_build_absolute_uri,
         mock_oai_registry_get_by_id,
         mock_remove_oaipmh_data_source,
     ):
         """test_remove_oaipmh_data_source_fails_returns_400"""
 
         mock_oai_registry = MagicMock()
-        mock_url_instance = "mock_url_instance"
         mock_query_get_by_id.return_value = "mock_query"
-        mock_build_absolute_uri.return_value = mock_url_instance
         mock_oai_registry_get_by_id.return_value = mock_oai_registry
         mock_remove_oaipmh_data_source.side_effect = Exception(
             "mock_remove_oaipmh_data_source_exception"
@@ -291,21 +275,17 @@ class TestUpdateDataSourceListOaipmh(TestCase):
     @patch(
         "core_explore_oaipmh_app.views.user.ajax.oai_registry_api.get_by_id"
     )
-    @patch("django.http.HttpRequest.build_absolute_uri")
     @patch("core_explore_oaipmh_app.views.user.ajax.api_query.get_by_id")
     def test_success_returns_200(
         self,
         mock_query_get_by_id,
-        mock_build_absolute_uri,
         mock_oai_registry_get_by_id,
         mock_remove_oaipmh_data_source,
     ):
         """test_success_returns_200"""
 
         mock_oai_registry = MagicMock()
-        mock_url_instance = "mock_url_instance"
         mock_query_get_by_id.return_value = "mock_query"
-        mock_build_absolute_uri.return_value = mock_url_instance
         mock_oai_registry_get_by_id.return_value = mock_oai_registry
         mock_remove_oaipmh_data_source.return_value = None
 

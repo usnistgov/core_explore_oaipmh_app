@@ -25,7 +25,7 @@ def add_oaipmh_data_source(query, data_source, user):
         if (
             "instance_id" in data_source_item["query_options"]
             and data_source_item["query_options"]["instance_id"]
-            == data_source.query_options["instance_id"]
+            == data_source["query_options"]["instance_id"]
         ):
             data_source_found = True
 
