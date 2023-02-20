@@ -22,5 +22,10 @@ urlpatterns = [
         user_views.data_detail,
         name="core_explore_oaipmh_app_data_detail",
     ),
+    re_path(
+        r"^change-data-display",
+        user_ajax.change_data_display,
+        name="core_explore_oaipmh_app_change_data_display",
+    ),
     re_path(r"^rest/", include("core_explore_oaipmh_app.rest.urls")),
 ]

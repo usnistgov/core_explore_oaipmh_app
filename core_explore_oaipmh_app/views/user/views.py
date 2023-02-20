@@ -34,6 +34,15 @@ def data_detail(request):
 
         page_context = data_view_builder.build_page(data_object)
 
+        page_context["assets"]["js"].extend(
+            [
+                {
+                    "path": "core_explore_oaipmh_app/user/js/data/change_display.raw.js",
+                    "is_raw": True,
+                },
+            ]
+        )
+
         return data_view_builder.render_page(
             request,
             render,

@@ -15,6 +15,12 @@ from core_explore_common_app.components.abstract_query.models import (
     Authentication,
     DataSource,
 )
+from core_main_app.templatetags.xsl_transform_tag import (
+    render_xml_as_html_detail,
+)
+from core_oaipmh_harvester_app.components.oai_record import (
+    api as oai_record_api,
+)
 from core_oaipmh_harvester_app.components.oai_registry import (
     api as oai_registry_api,
 )
@@ -150,3 +156,46 @@ def update_data_source_list_oaipmh(request):
         return HttpResponseBadRequest(
             f"Error during data source selection: {escape(str(exception))}"
         )
+
+
+def change_data_display(request):
+    """Change data display
+
+    Args:
+        request:
+
+    Returns:
+    """
+    try:
+        # get xslt id
+        xsl_transformation_id = request.POST.get("xslt_id", None)
+        # get oai_record
+        record = oai_record_api.get_by_id(
+            request.POST.get("data_id"), request.user
+        )
+        # get template id
+        template_id = record.harvester_metadata_format.template.id
+        # get template hash
+        template_hash = record.harvester_metadata_format.template.hash
+        # get xml content
+        xml_content = record.xml_content
+
+        # return content transformed
+        return HttpResponse(
+            json.dumps(
+                {
+                    "template": render_xml_as_html_detail(
+                        xml_content=xml_content,
+                        template_id=template_id,
+                        template_hash=template_hash,
+                        xslt_id=xsl_transformation_id,
+                        request=request,
+                    ),
+                }
+            ),
+            "application/javascript",
+        )
+    except AccessControlError:
+        return HttpResponseForbidden("Access Forbidden")
+    except Exception:
+        return HttpResponseBadRequest("Unexpected error")
