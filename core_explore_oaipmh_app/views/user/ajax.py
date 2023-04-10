@@ -5,16 +5,16 @@ import json
 from django.http import HttpResponseForbidden
 from django.http.response import HttpResponseBadRequest, HttpResponse
 from django.shortcuts import render
-from django.urls import reverse
 from django.utils.html import escape
 
-from core_main_app.access_control.exceptions import AccessControlError
-from core_main_app.settings import DATA_SORTING_FIELDS, SERVER_URI
 import core_explore_common_app.components.query.api as api_query
 from core_explore_common_app.components.abstract_query.models import (
     Authentication,
     DataSource,
 )
+from core_explore_oaipmh_app.components.query import api as oaipmh_query_api
+from core_main_app.access_control.exceptions import AccessControlError
+from core_main_app.settings import DATA_SORTING_FIELDS, SERVER_URI
 from core_main_app.templatetags.xsl_transform_tag import (
     render_xml_as_html_detail,
 )
@@ -24,8 +24,6 @@ from core_oaipmh_harvester_app.components.oai_record import (
 from core_oaipmh_harvester_app.components.oai_registry import (
     api as oai_registry_api,
 )
-from core_explore_oaipmh_app import settings
-from core_explore_oaipmh_app.components.query import api as oaipmh_query_api
 
 
 def get_data_source_list_oaipmh(request):
@@ -129,13 +127,6 @@ def update_data_source_list_oaipmh(request):
                 order_by_field=",".join(DATA_SORTING_FIELDS),
                 query_options={"instance_id": str(instance.id)},
             )
-
-            if "core_linked_records_app" in settings.INSTALLED_APPS:
-                data_source["capabilities"] = {
-                    "url_pid": request.build_absolute_uri(
-                        reverse("core_linked_records_app_query_oaipmh")
-                    )
-                }
 
             oaipmh_query_api.add_oaipmh_data_source(
                 query, data_source, request.user

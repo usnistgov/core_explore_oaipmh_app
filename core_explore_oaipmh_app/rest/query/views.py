@@ -9,18 +9,14 @@ from django.urls import reverse
 
 import core_oaipmh_harvester_app.components.oai_record.api as oai_record_api
 from core_explore_common_app.components.result.models import Result
-from core_explore_common_app.rest.result.serializers import ResultSerializer
 from core_main_app.commons.constants import DATA_JSON_FIELD
 from core_main_app.commons.exceptions import ApiError
-from core_main_app.settings import RESULTS_PER_PAGE
+from core_main_app.settings import RESULTS_PER_PAGE, DATA_SORTING_FIELDS
 from core_main_app.utils.pagination.django_paginator.results_paginator import (
     ResultsPaginator,
 )
 from core_main_app.utils.pagination.mongoengine_paginator.paginator import (
     MongoenginePaginator,
-)
-from core_main_app.utils.pagination.rest_framework_paginator.pagination import (
-    StandardResultsSetPagination,
 )
 from core_oaipmh_harvester_app.components.oai_harvester_metadata_format import (
     api as oai_harvester_metadata_format_api,
@@ -28,90 +24,9 @@ from core_oaipmh_harvester_app.components.oai_harvester_metadata_format import (
 from core_oaipmh_harvester_app.components.oai_registry import (
     api as oai_registry_api,
 )
-from core_oaipmh_harvester_app.rest.oai_record.abstract_views import (
-    AbstractExecuteQueryView,
-)
 from core_oaipmh_harvester_app.utils.query.mongo.query_builder import (
     OaiPmhQueryBuilder,
 )
-
-
-# TODO: check if keeping this one is useful, only used in PID (may be able to do local call too)
-class ExecuteQueryView(AbstractExecuteQueryView):
-    """Execute Query View"""
-
-    def get_registries(self):
-        """Get a list of registry ids. Should return empty list if not found. JSON format.
-
-        Returns:
-            List of registry ids (JSON format).
-
-        """
-        registries = []
-        options = self.request.data.get("options", None)
-        if options is not None:
-            if (
-                type(options) is str
-            ):  # Try parsing options only if it is a string
-                options = json.loads(options)
-
-            registries.append(int(options["instance_id"]))
-
-        return json.dumps(registries)
-
-    def build_response(self, data_list):
-        """Build the paginated response.
-
-        Args:
-            data_list: List of data.
-
-        Returns:
-            The response.
-
-        """
-        # Paginator
-        paginator = StandardResultsSetPagination()
-        # get requested page from list of results
-        page = paginator.paginate_queryset(data_list, self.request)
-
-        # Serialize object
-        results = []
-        url = reverse("core_explore_oaipmh_app_data_detail")
-        url_access_data = reverse(
-            "core_explore_oaipmh_app_rest_get_result_from_data_id"
-        )
-        # Template info
-        template_info = dict()
-        for data in page:
-            # get data's metadata format
-            metadata_format = data.harvester_metadata_format
-            # get and store data's template information from metadata format
-            if metadata_format not in template_info:
-                template = data.harvester_metadata_format.template
-                template_info[
-                    metadata_format
-                ] = get_template_info_from_metadata_format_and_template(
-                    metadata_format, template
-                )
-
-            results.append(
-                Result(
-                    title=data.title,
-                    xml_content=data.xml_content,
-                    template_info=template_info[metadata_format],
-                    permission_url=None,
-                    detail_url=f"{url}?id={str(data.id)}",
-                    last_modification_date=data.last_modification_date.replace(
-                        tzinfo=pytz.UTC
-                    ),
-                    access_data_url=f"{url_access_data}?id={str(data.id)}",
-                )
-            )
-
-        # Serialize results
-        serialized_results = ResultSerializer(results, many=True)
-        # Return http response
-        return paginator.get_paginated_response(serialized_results.data)
 
 
 def get_template_info_from_metadata_format_and_template(
@@ -157,28 +72,15 @@ def get_registries(data):
     return json.dumps(registries_list)
 
 
-def execute_oaipmh_query(query_data, page, request):
-    """Execute query on OAI-PMH database
-
-    Args:
-        query_data:
-        page:
-        request:
-
-    Returns:
-
-    """
+def build_oaipmh_query(query_data):
     # get query and templates
     query = query_data.get("query", None)
-    templates = query_data.get("templates", "[]")
-    registries = get_registries(query_data)
-    order_by_field = query_data.get("order_by_field", None)
-
-    if order_by_field:
-        order_by_field = order_by_field.split(",")
 
     if query is None:
         raise ApiError("Query should be passed in parameter.")
+
+    templates = query_data.get("templates", "[]")
+    registries = get_registries(query_data)
 
     # build query builder
     query_builder = OaiPmhQueryBuilder(query, DATA_JSON_FIELD)
@@ -229,8 +131,29 @@ def execute_oaipmh_query(query_data, page, request):
 
     # do not include deleted records
     query_builder.add_not_deleted_criteria()
-    # create a raw query
-    raw_query = query_builder.get_raw_query()
+    # return the raw query
+    return query_builder.get_raw_query()
+
+
+def execute_oaipmh_query(query_data, page, request):
+    """Execute query on OAI-PMH database
+
+    Args:
+        query_data:
+        page:
+        request:
+
+
+    Returns:
+
+    """
+    # build raw query
+    raw_query = build_oaipmh_query(query_data)
+    # retrieve order_by_field field
+    order_by_field = query_data.get("order_by_field", None)
+    order_by_field = (
+        order_by_field.split(",") if order_by_field else DATA_SORTING_FIELDS
+    )
     # execute query
     data_list = oai_record_api.execute_json_query(
         raw_query, request.user, order_by_field

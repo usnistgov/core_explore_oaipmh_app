@@ -9,6 +9,5 @@ admin.autodiscover()
 
 urlpatterns = [
     re_path(r"^", include("core_main_app.urls")),
-    re_path(r"^", include("core_linked_records_app.urls")),
     re_path(r"^", include("core_explore_oaipmh_app.urls")),
 ]

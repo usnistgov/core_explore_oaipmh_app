@@ -143,12 +143,11 @@ class TestUpdateDataSourceListOaipmh(TestCase):
                 "authentication": {"auth_type": "session", "params": {}},
                 "order_by_field": ",".join(DATA_SORTING_FIELDS),
                 "query_options": {"instance_id": str(mock_oai_registry.id)},
-                "capabilities": {"url_pid": "mock_url_instance"},
+                "capabilities": {},
             },
             self.user,
         )
 
-    @patch("core_explore_oaipmh_app.views.user.ajax.settings.INSTALLED_APPS")
     @patch(
         "core_explore_oaipmh_app.views.user.ajax.oaipmh_query_api.add_oaipmh_data_source"
     )
@@ -161,13 +160,11 @@ class TestUpdateDataSourceListOaipmh(TestCase):
         mock_query_get_by_id,
         mock_oai_registry_get_by_id,
         mock_add_oaipmh_data_source,
-        mock_installed_apps,
     ):
         """test_data_source_capabilities_empty_when_linked_records_not_installed"""
         mock_oai_registry = MagicMock()
         mock_query_get_by_id.return_value = "mock_query"
         mock_oai_registry_get_by_id.return_value = mock_oai_registry
-        mock_installed_apps.return_value = []
 
         self._send_request(
             {"id_query": "mock_id_query", "to_be_added": "true"}
