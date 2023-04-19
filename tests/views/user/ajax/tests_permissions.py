@@ -7,13 +7,13 @@ from core_explore_oaipmh_app.views.user.ajax import (
     update_data_source_list_oaipmh,
 )
 from core_main_app.utils.integration_tests.integration_base_test_case import (
-    MongoIntegrationBaseTestCase,
+    IntegrationBaseTestCase,
 )
 from core_main_app.utils.tests_tools.MockUser import create_mock_user
 from tests.fixtures.fixtures import AccessControlDataFixture
 
 
-class TestGetDataSourceListOaipmh(MongoIntegrationBaseTestCase):
+class TestGetDataSourceListOaipmh(IntegrationBaseTestCase):
     """Test Get Data Source List Oaipmh"""
 
     def setUp(self):
@@ -37,7 +37,7 @@ class TestGetDataSourceListOaipmh(MongoIntegrationBaseTestCase):
         self.assertEqual(response.status_code, 403)
 
 
-class TestUpdateDataSourceListOaipmh(MongoIntegrationBaseTestCase):
+class TestUpdateDataSourceListOaipmh(IntegrationBaseTestCase):
     """Test Update Data Source List Oaipmh"""
 
     def setUp(self):

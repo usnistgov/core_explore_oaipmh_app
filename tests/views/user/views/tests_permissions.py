@@ -4,7 +4,7 @@ from django.test import RequestFactory, override_settings
 
 from core_explore_oaipmh_app.views.user.views import data_detail
 from core_main_app.utils.integration_tests.integration_base_test_case import (
-    MongoIntegrationBaseTestCase,
+    IntegrationBaseTestCase,
 )
 from rest_framework import status
 from unittest.mock import patch
@@ -21,7 +21,7 @@ from core_main_app.utils.tests_tools.MockUser import create_mock_user
 from tests.fixtures.fixtures import AccessControlDataFixture
 
 
-class TestViewData(MongoIntegrationBaseTestCase):
+class TestViewData(IntegrationBaseTestCase):
     """Test View Data"""
 
     def setUp(self):
