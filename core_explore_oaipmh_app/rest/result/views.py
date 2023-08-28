@@ -35,7 +35,7 @@ def get_result_from_data_id(request):
         # reverse url for accessing data
         record = oai_record_api.get_by_id(data_id, request.user)
         # No title for OaiRecord. Use of the id.
-        result = Result(title=str(data_id), xml_content=record.xml_content)
+        result = Result(title=str(data_id), content=record.content)
         # Serialize results
         return_value = ResultSerializer(result)
         # Returns the response

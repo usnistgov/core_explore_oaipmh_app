@@ -49,6 +49,7 @@ def get_template_info_from_metadata_format_and_template(
         "id": template.id if template is not None else "",
         "name": name,
         "hash": harvester_metadata_format.hash,
+        "format": template.format,
     }
 
     return return_value
@@ -117,10 +118,9 @@ def build_oaipmh_query(query_data):
         )
         # Filter metadata formats that use the given templates
         list_metadata_formats_id = [
-            str(x.id)
+            x.id
             for x in list_metadata_format
-            if x.template is not None
-            and str(x.template.id) in list_template_ids
+            if x.template is not None and x.template.id in list_template_ids
         ]
         query_builder.add_list_metadata_formats_criteria(
             list_metadata_formats_id
@@ -201,7 +201,7 @@ def format_oaipmh_results(results, request):
         data_list.append(
             Result(
                 title=data.title,
-                xml_content=data.xml_content,
+                content=data.xml_content,
                 template_info=template_info[metadata_format],
                 permission_url=None,
                 detail_url=f"{url}?id={str(data.id)}",
