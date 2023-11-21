@@ -24,9 +24,10 @@ def data_detail(request):
         data_object = {
             "record_id": record.id,
             "title": record.identifier,
-            "xml_content": record.xml_content,
+            "content": record.content,
             "template": {
                 "id": template.id if template is not None else "",
+                "format": template.format if template is not None else "",
                 "display_name": record.harvester_metadata_format.get_display_name(),
                 "hash": record.harvester_metadata_format.hash,
             },
