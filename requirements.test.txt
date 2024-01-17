@@ -1,1 +1,1 @@
-core-linked-records-app==2.7.*
+core-linked-records-app==2.8.*
