@@ -47,7 +47,7 @@ class TestUpdateDataSourceListOaipmh(TestCase):
 
     def test_id_query_none_returns_400(self):
         """test_id_query_none_returns_400"""
-        self.assertEquals(
+        self.assertEqual(
             self._send_request().status_code, status.HTTP_400_BAD_REQUEST
         )
 
@@ -57,7 +57,7 @@ class TestUpdateDataSourceListOaipmh(TestCase):
         mock_query_get_by_id.side_effect = Exception(
             "mock_query_get_by_id_exception"
         )
-        self.assertEquals(
+        self.assertEqual(
             self._send_request({"id_query": "mock_id_query"}).status_code,
             status.HTTP_400_BAD_REQUEST,
         )
@@ -68,7 +68,7 @@ class TestUpdateDataSourceListOaipmh(TestCase):
         mock_query_get_by_id.side_effect = AccessControlError(
             "mock_query_get_by_id_exception"
         )
-        self.assertEquals(
+        self.assertEqual(
             self._send_request({"id_query": "mock_id_query"}).status_code,
             status.HTTP_403_FORBIDDEN,
         )
@@ -83,7 +83,7 @@ class TestUpdateDataSourceListOaipmh(TestCase):
         mock_build_absolute_uri.side_effect = Exception(
             "mock_build_absolute_uri_exception"
         )
-        self.assertEquals(
+        self.assertEqual(
             self._send_request({"id_query": "mock_id_query"}).status_code,
             status.HTTP_400_BAD_REQUEST,
         )
@@ -105,7 +105,7 @@ class TestUpdateDataSourceListOaipmh(TestCase):
         mock_oai_registry_get_by_id.side_effect = Exception(
             "mock_oai_registry_get_by_id"
         )
-        self.assertEquals(
+        self.assertEqual(
             self._send_request({"id_query": "mock_id_query"}).status_code,
             status.HTTP_400_BAD_REQUEST,
         )
@@ -203,7 +203,7 @@ class TestUpdateDataSourceListOaipmh(TestCase):
             "mock_add_oaipmh_data_source_exception"
         )
 
-        self.assertEquals(
+        self.assertEqual(
             self._send_request(
                 {"id_query": "mock_id_query", "to_be_added": "true"}
             ).status_code,
@@ -259,7 +259,7 @@ class TestUpdateDataSourceListOaipmh(TestCase):
             "mock_remove_oaipmh_data_source_exception"
         )
 
-        self.assertEquals(
+        self.assertEqual(
             self._send_request(
                 {"id_query": "mock_id_query", "to_be_added": "false"}
             ).status_code,
@@ -286,7 +286,7 @@ class TestUpdateDataSourceListOaipmh(TestCase):
         mock_oai_registry_get_by_id.return_value = mock_oai_registry
         mock_remove_oaipmh_data_source.return_value = None
 
-        self.assertEquals(
+        self.assertEqual(
             self._send_request(
                 {"id_query": "mock_id_query", "to_be_added": "false"}
             ).status_code,
@@ -313,7 +313,7 @@ class TestChangeDataDisplayOaipmh(TestCase):
 
     def test_id_record_none_returns_400(self):
         """test_id_record_none_returns_400"""
-        self.assertEquals(
+        self.assertEqual(
             self._send_request().status_code, status.HTTP_400_BAD_REQUEST
         )
 
@@ -325,7 +325,7 @@ class TestChangeDataDisplayOaipmh(TestCase):
         mock_record_get_by_id.side_effect = AccessControlError(
             "mock_query_get_by_id_exception"
         )
-        self.assertEquals(
+        self.assertEqual(
             self._send_request({"record_id": "mock_id_query"}).status_code,
             status.HTTP_403_FORBIDDEN,
         )
@@ -337,8 +337,8 @@ class TestChangeDataDisplayOaipmh(TestCase):
         mock_record_get_by_id.return_value = _oai_record
         response = self._send_request({"record_id": "1"})
         response_html = json.loads(response.content.decode())
-        self.assertEquals(response.status_code, status.HTTP_200_OK)
-        self.assertEquals(
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(
             response_html["template"],
             _get_change_display_data_result(_oai_record),
         )

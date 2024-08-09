@@ -13,7 +13,6 @@ INSTALLED_APPS = [
     "django.contrib.sites",
     "django.contrib.staticfiles",
     # Extra apps
-    "defender",
     "menu",
     "django_celery_beat",
     # Local apps

@@ -99,7 +99,7 @@ class TestViewData(IntegrationBaseTestCase):
             "id": str(oai_record.id),
         }
         response = data_detail(request)
-        self.assertEquals(
+        self.assertEqual(
             response.status_code,
             status.HTTP_200_OK,
         )
@@ -115,7 +115,7 @@ class TestViewData(IntegrationBaseTestCase):
             "id": str(oai_record.id),
         }
         response = data_detail(request)
-        self.assertEquals(
+        self.assertEqual(
             response.status_code,
             status.HTTP_200_OK,
         )
