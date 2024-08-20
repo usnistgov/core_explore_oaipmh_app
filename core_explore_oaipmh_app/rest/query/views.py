@@ -192,10 +192,10 @@ def format_oaipmh_results(results, request):
         # get and store data's template information from metadata format
         if metadata_format not in template_info:
             template = data.harvester_metadata_format.template
-            template_info[
-                metadata_format
-            ] = get_template_info_from_metadata_format_and_template(
-                metadata_format, template
+            template_info[metadata_format] = (
+                get_template_info_from_metadata_format_and_template(
+                    metadata_format, template
+                )
             )
 
         data_list.append(

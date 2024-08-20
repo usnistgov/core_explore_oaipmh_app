@@ -1,5 +1,6 @@
 """ Permission tests on views
 """
+
 from django.test import RequestFactory, override_settings
 
 from core_explore_oaipmh_app.views.user.views import data_detail

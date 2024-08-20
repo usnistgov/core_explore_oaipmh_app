@@ -1,5 +1,6 @@
 """ Permission tests on ajax
 """
+
 from django.test import RequestFactory
 
 from core_explore_oaipmh_app.views.user.ajax import (
