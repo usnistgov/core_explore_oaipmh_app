@@ -1,4 +1,4 @@
-core-main-app==2.19.*
-core-explore-common-app==2.19.*
-core-oaipmh-common-app==2.19.*
-core-oaipmh-harvester-app==2.19.*
+core-main-app==2.20.*
+core-explore-common-app==2.20.*
+core-oaipmh-common-app==2.20.*
+core-oaipmh-harvester-app==2.20.*
