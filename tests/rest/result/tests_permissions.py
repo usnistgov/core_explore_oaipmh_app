@@ -1,5 +1,4 @@
-""" Permissions Test for OAI Explore Result Rest API
-"""
+"""Permissions Test for OAI Explore Result Rest API"""
 
 from django.test import SimpleTestCase
 from unittest.mock import patch, Mock

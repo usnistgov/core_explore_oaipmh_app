@@ -1,5 +1,4 @@
-""" REST views for the explore OAI-PMH API
-"""
+"""REST views for the explore OAI-PMH API"""
 
 import json
 

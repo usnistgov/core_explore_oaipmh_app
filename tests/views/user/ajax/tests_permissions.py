@@ -1,5 +1,4 @@
-""" Permission tests on ajax
-"""
+"""Permission tests on ajax"""
 
 from django.test import RequestFactory
 

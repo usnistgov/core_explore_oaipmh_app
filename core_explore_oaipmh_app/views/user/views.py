@@ -1,5 +1,4 @@
-"""Explore OAI-PMH user views
-"""
+"""Explore OAI-PMH user views"""
 
 from core_main_app.access_control.exceptions import AccessControlError
 from core_main_app.utils.rendering import render

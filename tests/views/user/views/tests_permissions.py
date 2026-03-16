@@ -1,5 +1,4 @@
-""" Permission tests on views
-"""
+"""Permission tests on views"""
 
 from django.test import RequestFactory, override_settings
 

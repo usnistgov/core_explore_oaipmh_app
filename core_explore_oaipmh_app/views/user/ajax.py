@@ -1,5 +1,4 @@
-""" Ajax User core explore OAI-PMH
-"""
+"""Ajax User core explore OAI-PMH"""
 
 import json
 

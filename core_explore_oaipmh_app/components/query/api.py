@@ -1,5 +1,4 @@
-""" OaiPmh Query api
-"""
+"""OaiPmh Query api"""
 
 import core_explore_common_app.components.query.api as api_query
 from core_explore_common_app.access_control.api import can_access

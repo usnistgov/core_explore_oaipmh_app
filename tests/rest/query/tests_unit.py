@@ -1,5 +1,4 @@
-""" Unit tests for Explore OAI-PMH REST API
-"""
+"""Unit tests for Explore OAI-PMH REST API"""
 
 from unittest.mock import patch, MagicMock
 

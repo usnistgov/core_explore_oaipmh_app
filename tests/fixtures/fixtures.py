@@ -1,5 +1,4 @@
-""" Fixtures files for Data
-"""
+"""Fixtures files for Data"""
 
 from core_explore_common_app.components.query.models import Query
 from core_linked_records_app.components.pid_settings.models import PidSettings

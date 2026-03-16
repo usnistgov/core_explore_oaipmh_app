@@ -1,5 +1,4 @@
-""" Setup fot core  explore oai app
-"""
+"""Setup fot core  explore oai app"""
 
 from os import chdir, pardir
 from os.path import join, exists, dirname, normpath, abspath
